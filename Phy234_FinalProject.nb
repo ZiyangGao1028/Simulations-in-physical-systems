@@ -1,0 +1,652 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     29267,        644]
+NotebookOptionsPosition[     26231,        588]
+NotebookOutlinePosition[     26586,        604]
+CellTagsIndexPosition[     26543,        601]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[StyleBox["Physics 234  \nFinal Project",
+ FontSize->24]], "Title",
+ CellChangeTimes->{{3.731933741464285*^9, 3.731933811667729*^9}, {
+   3.733086138314348*^9, 3.7330861788780413`*^9}, 3.733089827843464*^9, {
+   3.733587756424402*^9, 3.733587756706798*^9}, {3.734019943020936*^9, 
+   3.7340199460352583`*^9}, {3.734199165521022*^9, 3.734199166720216*^9}, {
+   3.734537006362749*^9, 3.734537022802*^9}, {3.7345750840380497`*^9, 
+   3.734575102029476*^9}, {3.7349662859536667`*^9, 3.734966289508781*^9}},
+ FontSize->16,ExpressionUUID->"95573c9d-0bc1-4fa9-a981-4d3e554852c7"],
+
+Cell[TextData[StyleBox["Eric Shao, Ziyang Gao\n5/2018",
+ FontSize->18]], "Text",
+ CellChangeTimes->{{3.731933819521956*^9, 3.731933824538842*^9}, {
+  3.731939225488948*^9, 3.7319392305278673`*^9}, {3.733088578727078*^9, 
+  3.733088579284164*^9}, {3.734020009085465*^9, 3.7340200096221323`*^9}, {
+  3.734575119632834*^9, 3.7345751235015793`*^9}, {3.734966291910635*^9, 
+  3.734966294441298*^9}, {3.735400471258912*^9, 3.735400471420321*^9}},
+ FontSize->16,ExpressionUUID->"0bef0380-ca82-4570-b629-7cd4fa344bb1"],
+
+Cell[CellGroupData[{
+
+Cell["Section 0: Progress report", "Section",
+ CellChangeTimes->{{3.735755006302002*^9, 3.735755031922365*^9}},
+ FontSize->16,ExpressionUUID->"d7e3340a-051e-4002-83c9-2eb44f5518de"],
+
+Cell["\<\
+  A clear statement of your project: Please see section 1 below.
+  Results from a search for appropriate applets: Please see section 4 below.
+  What you hope to accomplish, including a time schedule. \
+We\[CloseCurlyQuote]ve finished coding speed changes for each car in the left \
+lane (remaining lane) of a traffic simulation. In the next stage we plan to \
+animate the actual process of road diet after the appearance of 1 signal (by \
+next Tuesday), and hopefully extend to multiple switching of lanes, for \
+example, when 4 lanes dieting to 2 (by next Thursday).
+  Problems and concerns: Please see sections below.
+  If you' re a pair, indicate how you are breaking up responsibilities: We \
+pair programmed the  following(with a switch of coding/navigating \
+responsibility every half an hour), with the navigating one also in charge of \
+writing up sections 1-3.\
+\>", "Text",
+ CellChangeTimes->{{3.735754993610448*^9, 3.7357549994845953`*^9}, {
+  3.735755039739484*^9, 3.7357550644544992`*^9}, {3.7357551019289923`*^9, 
+  3.735755321176922*^9}, {3.7357553523328543`*^9, 3.735755434048236*^9}, {
+  3.735755473516192*^9, 3.735755590230871*^9}},
+ FontSize->16,ExpressionUUID->"cb8cb7cd-e2fa-49ab-924c-b18b8c894982"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Section 1 : What is the problem about", "Section",
+ CellChangeTimes->{{3.73457513181528*^9, 3.734575144041408*^9}},
+ FontSize->16,ExpressionUUID->"d275bf6f-1e89-4efb-b31b-56a346c735f9"],
+
+Cell[TextData[StyleBox["\tA road diet, also called a lane reduction or road \
+rechannelization, is a technique in transportation planning whereby the \
+number of travel lanes and/or effective width of the road is reduced in order \
+to achieve systemic improvements. The situation of a road diet is one of the \
+major causes of traffic jam and without proper road management and signal \
+design, drivers will have to spend an unexpectedly long time trying to get \
+through a short distance near the dieting place.\n\tOur main concern is about \
+where to put the sign(s) to have maximum efficiency for avoiding congestion. \
+We chose this topic because road diet is one of the main reason for traffic \
+jam, which is a major problem for citizen in big cities.",
+ FontSize->16]], "Text",
+ CellChangeTimes->{{3.734575157200767*^9, 3.734575168657661*^9}, {
+   3.734966337852501*^9, 3.7349663404260607`*^9}, {3.7349663757567253`*^9, 
+   3.734966376294083*^9}, 3.7349673816293364`*^9, {3.735742197874404*^9, 
+   3.735742210774308*^9}, {3.73574238031151*^9, 3.7357424166154757`*^9}, {
+   3.735742622215479*^9, 3.735742784709798*^9}, {3.735742824989696*^9, 
+   3.735742839293181*^9}, 3.735742871888352*^9, {3.7357429984890337`*^9, 
+   3.7357430513562403`*^9}, {3.735755080589181*^9, 3.735755086296376*^9}, {
+   3.736003565176446*^9, 3.736003565703991*^9}},
+ FontSize->16,ExpressionUUID->"6c774fe9-0101-4feb-be74-7d3e6c64d0eb"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Section 2 : Parameters of concern in our model", "Section",
+ CellChangeTimes->{{3.734966477018255*^9, 3.734966535042932*^9}, {
+  3.734966632689857*^9, 3.734966634782564*^9}},
+ FontSize->16,ExpressionUUID->"1edd8c0f-4a84-40f9-bd4c-b7ef052c2c09"],
+
+Cell[TextData[{
+ StyleBox["The response variable:\nTime needs from the start to completion of \
+road diet.\n\nThe explanatory variables:\n1. The position and the number of \
+signs;\n2. Number of cars in total of consideration;\n3. Number of lanes \
+before the diet;\n4. Number of lanes after the diet;\n\nThe constants of the \
+model: \n1. Car length(s) and its distribution; ",
+  FontSize->16],
+ StyleBox["(*I don\[CloseCurlyQuote]t think we need car length*)", 
+  "Subsubsection",
+  FontSize->16],
+ StyleBox["\n2. The percentage of drivers that will emerge when see the sign;\
+\n3. The percentage (30%) of drivers who will change lane if a more preferred \
+lane is next to his current one",
+  FontSize->16]
+}], "Text",
+ CellChangeTimes->{{3.7349665395466003`*^9, 3.734966663267796*^9}, {
+  3.7349667214936*^9, 3.7349667301691113`*^9}, {3.734966768488585*^9, 
+  3.734967006119829*^9}, {3.7349694826800413`*^9, 3.734969505593528*^9}, {
+  3.7349708452586527`*^9, 3.7349708601974077`*^9}, {3.7349708968472347`*^9, 
+  3.734970919950465*^9}},
+ FontSize->16,ExpressionUUID->"f1c61e7c-e63f-4981-9b06-f1513bb17b54"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Section 3 : Model logistics:", "Section",
+ CellChangeTimes->{{3.7345752061522217`*^9, 3.7345752132268257`*^9}, {
+  3.7346196310697527`*^9, 3.734619635957478*^9}, {3.734967237849535*^9, 
+  3.7349672450291147`*^9}},
+ FontSize->16,ExpressionUUID->"389a4e19-5fbb-4316-8b1f-bf0b96895a28"],
+
+Cell[TextData[StyleBox["\tIn this section we will explain on a high level \
+that how our model is built and the steps we will follow to derive a \
+satisfiable conclusion. Here it\[CloseCurlyQuote]ll be helpful to state some \
+underlying assumptions first: \n\t1. Any car will not be willing to share one \
+lane with another car when a second lane is available. \n\t2. When there is \
+no empty lanes, any car will choose the lane with the fastest speed as his \
+top choice, the lane of second fastest speed as his second choice and etc. \
+There is a constant portion (30%) of drivers who will change lane if a more \
+preferred lane is next to his current one. \n\t3. For simplicity, we assume \
+that one insertion will affect the whole lane\[CloseCurlyQuote]s traffic \
+speed by a certain percent (3%).\n\t4. When a road diet happen, a car will \
+allow insertion of other cars upon request (by light/sound signals). \n\tThe \
+user will need to insert the values for explanatory variables: position of \
+signs([L_1], [L_2]....[L_n]), number of signs [Sn], number of cars in total \
+of consideration [Cn],  number of lanes before diet [k0] and number of lanes \
+allowed after diet [k1]. \n\tWe will set the initial state of the model as \
+having same amount of cars on all Sn of lanes and all the cars moving at a \
+constant speed. Whenever the cars passing a road diet sign, randomly choose \
+50% of cars on the edge lane to insert into its neighbor lane. After all \
+insertions are done, recalculate the speed of the lane and rearrange the car \
+distribution for all Sn lanes, according to assumption 2. We will repeat the \
+above process whenever the edge lane encounters an assigned diet signal. In \
+the end, the model returns the time elapse from beginning of the process till \
+the road diet is complete.",
+ FontSize->16]], "Text",
+ CellChangeTimes->{{3.734620401725184*^9, 3.734620432851729*^9}, {
+   3.73462062596986*^9, 3.734620633235289*^9}, 3.734967377255698*^9, {
+   3.734967434456172*^9, 3.7349675798826933`*^9}, {3.7349676220369062`*^9, 
+   3.7349676223911057`*^9}, {3.7349677449162683`*^9, 3.73496780258667*^9}, {
+   3.734967843973308*^9, 3.734968458765503*^9}, {3.734968634450041*^9, 
+   3.7349687117317343`*^9}, {3.734969293791482*^9, 3.7349694016770153`*^9}, {
+   3.734969438578747*^9, 3.7349694389858837`*^9}, {3.734969511902526*^9, 
+   3.734969616108293*^9}, {3.7349696896785593`*^9, 3.734969889395936*^9}, {
+   3.734969938001519*^9, 3.734969992105123*^9}, {3.734970211223673*^9, 
+   3.734970309105188*^9}, {3.734970441878057*^9, 3.7349705290796947`*^9}, {
+   3.7349705661015587`*^9, 3.734970805788027*^9}, {3.73497096677177*^9, 
+   3.734971223393278*^9}, {3.735755338468574*^9, 3.7357553392795763`*^9}},
+ FontSize->16,ExpressionUUID->"00405ee7-8b14-4a7c-baa6-b1955e6b54d8"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Section 4: Code Development", "Section",
+ CellChangeTimes->{{3.7357460509786987`*^9, 3.7357460608728533`*^9}, {
+  3.735755115284112*^9, 3.735755117515213*^9}},
+ FontSize->16,ExpressionUUID->"32b8b325-f318-45ab-809c-4468d099fafe"],
+
+Cell["\<\
+We will first develop a model concerns two lines emerge to one.\
+\>", "Text",
+ CellChangeTimes->{{3.7357472437663717`*^9, 3.735747249877448*^9}},
+ FontSize->16,ExpressionUUID->"a1187bc8-f26d-410a-8910-e68f63939ab0"],
+
+Cell[CellGroupData[{
+
+Cell["Set Up", "Subsection",
+ CellChangeTimes->{{3.735747186372675*^9, 3.735747197598649*^9}, {
+  3.735753881778674*^9, 3.735753883071706*^9}},
+ FontSize->16,ExpressionUUID->"ac0241ee-2cf6-4453-bfb7-6f48f23756db"],
+
+Cell["\<\
+For the line that will not be closed, there will be a list represent the cars \
+on it with each element store the position and velocity of the car. For the \
+other line that will be closed, there will be two list of cars, one list \
+represent the cars that want to emerge, the other represent the cars that \
+will not.\
+\>", "Text",
+ CellChangeTimes->{{3.7357462229402323`*^9, 3.735746315480351*^9}, {
+  3.7357463549860353`*^9, 3.7357464091959057`*^9}, {3.735746602011819*^9, 
+  3.735746612043071*^9}, {3.7357472392331533`*^9, 3.735747241425747*^9}},
+ FontSize->16,ExpressionUUID->"bd791215-5d00-420d-87c7-085b2c8ec854"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Lane1", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Lane2", "=", 
+   RowBox[{"{", "}"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7357464163136463`*^9, 3.735746450542346*^9}, 
+   3.735750813960306*^9, {3.735750854049786*^9, 3.735750856729751*^9}},
+ FontSize->16,
+ CellLabel->"In[42]:=",ExpressionUUID->"3ff497d2-2b28-409b-a90c-4a9e2c1ae5f0"],
+
+Cell[TextData[{
+ "There will be a variable called ",
+ StyleBox["t ",
+  FontSlant->"Italic"],
+ "represents the current time of the model, start with 0 "
+}], "Text",
+ CellChangeTimes->{{3.735746464228139*^9, 3.7357465543094254`*^9}},
+ FontSize->16,ExpressionUUID->"5b9ca5b5-73ac-41a4-9a44-67b84d1562b2"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"t", "=", "0"}], ";"}]], "Input",
+ CellChangeTimes->{{3.735746555717288*^9, 3.735746561434073*^9}, {
+  3.7357474141911488`*^9, 3.735747416209484*^9}},
+ FontSize->16,
+ CellLabel->"In[30]:=",ExpressionUUID->"4b0732f9-a2dc-45ab-8f61-5ccfc6b5db11"],
+
+Cell["\<\
+To begin the simulation, we will generate a random number of 1 and 0 for each \
+time interval. If it is 1, a car will appear on Lane1. If it is 0, a car will \
+appear on Lane2 with no intention to emerge. These car will have position 0 \
+and a velocity around the 3m/s range of the speed limit.\
+\>", "Text",
+ CellChangeTimes->{{3.7357466459189672`*^9, 3.735746779286512*^9}, {
+  3.735746845878169*^9, 3.735746869155945*^9}, {3.735747795519096*^9, 
+  3.735747797152361*^9}},
+ FontSize->16,ExpressionUUID->"00124ca6-4fd2-49cc-ad9b-ec63a8854ad2"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SL", "=", "30"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"TI", "=", "5"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Mod", "[", 
+      RowBox[{"t", ",", "5"}], "]"}], "\[Equal]", "0"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"i", "=", 
+      RowBox[{"RandomInteger", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"i", "\[Equal]", "0"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"Lane2", ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", 
+           RowBox[{"RandomInteger", "[", 
+            RowBox[{
+             RowBox[{"SL", "-", "3"}], ",", 
+             RowBox[{"SL", "+", "3"}]}], "]"}], ",", "0"}], "}"}]}], "]"}], 
+       ",", "\[IndentingNewLine]", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"Lane1", ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", 
+           RowBox[{"RandomInteger", "[", 
+            RowBox[{
+             RowBox[{"SL", "-", "3"}], ",", 
+             RowBox[{"SL", "+", "3"}]}], "]"}]}], "}"}]}], "]"}]}], 
+      "\[IndentingNewLine]", "]"}]}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.735746873174204*^9, 3.7357471486757727`*^9}, {
+  3.7357475294140882`*^9, 3.735747536301667*^9}, {3.735747788477639*^9, 
+  3.7357478084491377`*^9}, {3.735750794997272*^9, 3.735750805162751*^9}, {
+  3.735750859332438*^9, 3.735750892461259*^9}, {3.7357509409892406`*^9, 
+  3.7357510006814423`*^9}},
+ FontSize->16,ExpressionUUID->"2c981883-99ed-400d-836c-2fb093678dd1"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Decision", "Subsection",
+ CellChangeTimes->{{3.735747202128046*^9, 3.735747214249527*^9}, {
+  3.735748220265418*^9, 3.735748231528417*^9}},
+ FontSize->16,ExpressionUUID->"3e8464ae-6bbb-44dd-9c4f-20c21a7279eb"],
+
+Cell["\<\
+In the model, without the loss of generality, we will assume the line that be \
+closed will always be the left lane (lane1). 
+For the driver, there will be two kinds of decision to make. First, speed up, \
+slow down or stay the same. A driver will speed up if it is less than speed \
+limit +3 and there are plenty of space ahead, slow down if there is a car too \
+close ahead or there is a car want to emerge. (For the latter one, it only \
+apply to Lane1 for a random probability). Second, emerge or not. For the \
+driver on lane2, each time they pass through a sign, a percentage of the \
+drive will move from \[OpenCurlyDoubleQuote]not want merge\
+\[CloseCurlyDoubleQuote] to \[OpenCurlyDoubleQuote]want to merge\
+\[CloseCurlyDoubleQuote]. For the driver want to emerge, they will speed down \
+linearly and try to emerge to lane1. As soon as they find there is a gap \
+besides them larger than the safe distance, they will emerge. Also for the \
+driver on lane2 that \[OpenCurlyDoubleQuote]not want to merge\
+\[CloseCurlyDoubleQuote], they will merge if there is a gap on lane 1 with \
+twice the safe distance.\
+\>", "Text",
+ CellChangeTimes->{{3.735747829738006*^9, 3.735748512007965*^9}},
+ FontSize->16,ExpressionUUID->"c1068dd7-fd88-4262-85a1-9d55299dd854"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"Findpos", "[", 
+     RowBox[{"pos_", ",", "list_"}], "]"}], ":=", 
+    RowBox[{"Module", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"l", "=", 
+         RowBox[{"Length", "[", "list", "]"}]}], ",", 
+        RowBox[{"returnvalue", "=", 
+         RowBox[{"-", "1"}]}]}], "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"i", "\[LessEqual]", " ", "l"}], ",", 
+         RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"list", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "\[Equal]", "pos"}], ",", 
+           RowBox[{"returnvalue", "=", "i"}]}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"list", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "<", "pos"}], ",", "break"}], 
+          "]"}]}], "]"}], ";", "\[IndentingNewLine]", "returnvalue"}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]"}]], "Input",\
+
+ CellChangeTimes->{{3.73574947179525*^9, 3.7357495179381447`*^9}, {
+   3.735749567908505*^9, 3.735749569665403*^9}, {3.7357496169552717`*^9, 
+   3.735749737188795*^9}, {3.7357497754335413`*^9, 3.7357498828820972`*^9}, 
+   3.7357499295873938`*^9, {3.7357542875532827`*^9, 3.735754296438846*^9}, 
+   3.736004577047847*^9, {3.736005494462345*^9, 3.736005494543159*^9}, {
+   3.736176060445792*^9, 3.736176060597392*^9}},
+ FontSize->16,ExpressionUUID->"5d3c4c65-e9f6-409d-8cf9-a024b8279e56"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Drive", "[", "pos_", "]"}], ":=", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"MemberQ", "[", 
+       RowBox[{"c", ",", "pos"}], "]"}], ",", 
+      RowBox[{
+       RowBox[{"Ge", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{"need", " ", "help"}], "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"i", "\[NotEqual]", " ", 
+            RowBox[{"-", "1"}]}], "&&", 
+           RowBox[{"i", "\[NotEqual]", " ", "1"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"Lane1", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"i", "-", "1"}], "]"}], "]"}], "[", 
+                 RowBox[{"[", "1", "]"}], "]"}], "-", 
+                RowBox[{
+                 RowBox[{"Lane1", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], "[", 
+                 RowBox[{"[", "1", "]"}], "]"}]}], ")"}], ">", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Lane1", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], "[", 
+                RowBox[{"[", "2", "]"}], "]"}], "*", "3"}]}], "&&", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Lane1", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], "[", 
+               RowBox[{"[", "2", "]"}], "]"}], "<", "SL"}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Lane1", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], "[", 
+              RowBox[{"[", "2", "]"}], "]"}], "+=", "1"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Lane1", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], "[", 
+              RowBox[{"[", "2", "]"}], "]"}], "-=", "2"}]}], "]"}]}], "]"}]}],
+        ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"i", "==", "1"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"Lane1", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "[", 
+             RowBox[{"[", "2", "]"}], "]"}], "<", "SL"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Lane1", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "[", 
+             RowBox[{"[", "2", "]"}], "]"}], "+=", "1"}]}], "]"}]}], "]"}], 
+       ";"}], "\[IndentingNewLine]"}]}]}]}]}]], "Input",
+ CellChangeTimes->{{3.735749083152075*^9, 3.735749102331332*^9}, {
+   3.735749206867613*^9, 3.735749305910019*^9}, {3.7357493431828012`*^9, 
+   3.735749410927165*^9}, {3.7357499320376053`*^9, 3.73575021016676*^9}, {
+   3.7357502582555437`*^9, 3.73575029464576*^9}, {3.7357503257861423`*^9, 
+   3.735750587325975*^9}, {3.7357506269315767`*^9, 3.7357506333003483`*^9}, {
+   3.735750672684029*^9, 3.7357506935488443`*^9}, {3.735751057057907*^9, 
+   3.7357510623874702`*^9}, {3.7357543371319237`*^9, 3.735754369770879*^9}, {
+   3.735754410493821*^9, 3.7357544233349047`*^9}, {3.7357546444156647`*^9, 
+   3.735754649108919*^9}, 3.736007047817691*^9},
+ FontSize->16,ExpressionUUID->"75c541cc-cadd-434e-a347-c0be33f9eb9a"],
+
+Cell["\<\
+When a sign appear along the road, there will be a certain amount of, 50%, \
+cars decide to merge into the left lane. In the case that a car choose to \
+merge, its lane2[[i]][[3]] will change from 0 to 1. lane1[[i]][2] will change \
+according to the cars in one unit of speed limit before it on lane2.\
+\>", "Text",
+ CellChangeTimes->{{3.73575106558914*^9, 3.7357512061499166`*^9}, {
+  3.735751365047*^9, 3.735751369465024*^9}, {3.7357514049565153`*^9, 
+  3.7357514102026777`*^9}, {3.735751857539381*^9, 3.7357519065624323`*^9}, {
+  3.7357519375056267`*^9, 3.735752027842474*^9}},
+ FontSize->16,ExpressionUUID->"6c088496-ad5e-40e2-b51f-1cabef8b4658"],
+
+Cell[BoxData[
+ RowBox[{"For", "[", 
+  RowBox[{
+   RowBox[{"i", "=", "1"}], ",", 
+   RowBox[{"i", "\[LessEqual]", 
+    RowBox[{"Length", "[", "Lane2", "]"}]}], ",", 
+   RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"RandomReal", "[", "]"}], "<", "0.5"}], "&&", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Lane2", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "[", 
+         RowBox[{"[", "3", "]"}], "]"}], "==", "0"}]}], ",", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Lane2", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "[", 
+        RowBox[{"[", "3", "]"}], "]"}], "=", "1"}]}], "]"}], ";"}]}], 
+  "\[IndentingNewLine]", "]"}]], "Input",
+ CellChangeTimes->{{3.7357514640886717`*^9, 3.735751468909275*^9}, {
+  3.735751544346686*^9, 3.7357516078930273`*^9}, {3.735751650601666*^9, 
+  3.73575167682878*^9}, {3.735751797536523*^9, 3.735751841695187*^9}, {
+  3.7357521112670107`*^9, 3.735752112588221*^9}, {3.7357521506883307`*^9, 
+  3.735752226360257*^9}, {3.7357539197873077`*^9, 3.735753994381609*^9}, {
+  3.735754033788352*^9, 3.735754040896265*^9}},
+ FontSize->16,ExpressionUUID->"2e2f6b58-86fa-4947-bab9-e3a062b8048b"],
+
+Cell["\<\
+A car slows down if there is a car too close ahead. There is a certain \
+percentage (50%) that he will also slow down if there is a car want to \
+emerge; he will speed up if it is less than speed limit + 3 and there are \
+plenty of space ahead.\
+\>", "Text",
+ CellChangeTimes->{
+  3.735752237896729*^9, {3.735753314468405*^9, 3.735753331329871*^9}, {
+   3.736005722719656*^9, 3.7360057604244947`*^9}, 3.736005798799491*^9},
+ FontSize->16,ExpressionUUID->"71e34c34-8095-4560-9799-660b4fa9c7a6"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"For", " ", "[", 
+   RowBox[{
+    RowBox[{"i", "=", 
+     RowBox[{"SL", "+", "1"}]}], ",", 
+    RowBox[{"i", "<", 
+     RowBox[{"Length", "[", "Lane1", "]"}]}], ",", 
+    RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"For", " ", "[", 
+      RowBox[{
+       RowBox[{"k", "=", 
+        RowBox[{"i", "+", "SL"}]}], ",", 
+       RowBox[{"k", ">", "i"}], ",", 
+       RowBox[{"k", "--"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"Lane2", "[", 
+             RowBox[{"[", "k", "]"}], "]"}], "[", 
+            RowBox[{"[", "3", "]"}], "]"}], "\[Equal]", "1"}], "&&", 
+          RowBox[{
+           RowBox[{"RandomReal", "[", "]"}], "<", "0.5"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Lane1", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "=", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Lane1", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "-", "2"}]}]}], "]"}]}], 
+      "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", " ", "[", 
+      RowBox[{
+       RowBox[{"MemberQ", "[", 
+        RowBox[{
+         RowBox[{"Lane1", "[", 
+          RowBox[{"[", 
+           RowBox[{"All", ",", "1"}], "]"}], "]"}], ",", 
+         RowBox[{"i", "+", "SL"}]}], " ", "]"}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Lane1", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "[", 
+         RowBox[{"[", "2", "]"}], "]"}], "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Lane1", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], "[", 
+          RowBox[{"[", "2", "]"}], "]"}], "-", "2"}]}], ",", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Lane1", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "[", 
+         RowBox[{"[", "2", "]"}], "]"}], "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Lane1", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], "[", 
+          RowBox[{"[", "2", "]"}], "]"}], "+", "1"}]}]}], "]"}], ";"}]}], 
+   "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.735752269955495*^9, 3.735752509273583*^9}, {
+  3.735752598827417*^9, 3.73575267507843*^9}, {3.735752787868775*^9, 
+  3.735752964696169*^9}, {3.735753082537488*^9, 3.735753186111212*^9}, {
+  3.735753291302991*^9, 3.73575333370459*^9}, {3.735753370429513*^9, 
+  3.735753371635*^9}, {3.735753403027706*^9, 3.735753433090605*^9}, {
+  3.735753526330464*^9, 3.7357535500040293`*^9}, {3.7357536245574217`*^9, 
+  3.735753644676063*^9}, {3.7357537797763557`*^9, 3.7357538125950317`*^9}, {
+  3.735753935536786*^9, 3.735753935623456*^9}, {3.7357542334377728`*^9, 
+  3.735754236821043*^9}},
+ FontSize->16,ExpressionUUID->"75f8ff59-57f4-4ac1-b436-c706188fb2a5"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1035, 812},
+WindowMargins->{{123, Automatic}, {Automatic, 0}},
+FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
+2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 585, 8, 106, "Title",ExpressionUUID->"95573c9d-0bc1-4fa9-a981-4d3e554852c7"],
+Cell[1168, 32, 510, 7, 64, "Text",ExpressionUUID->"0bef0380-ca82-4570-b629-7cd4fa344bb1"],
+Cell[CellGroupData[{
+Cell[1703, 43, 181, 2, 52, "Section",ExpressionUUID->"d7e3340a-051e-4002-83c9-2eb44f5518de"],
+Cell[1887, 47, 1230, 19, 204, "Text",ExpressionUUID->"cb8cb7cd-e2fa-49ab-924c-b18b8c894982"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3154, 71, 191, 2, 52, "Section",ExpressionUUID->"d275bf6f-1e89-4efb-b31b-56a346c735f9"],
+Cell[3348, 75, 1417, 19, 156, "Text",ExpressionUUID->"6c774fe9-0101-4feb-be74-7d3e6c64d0eb"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4802, 99, 250, 3, 52, "Section",ExpressionUUID->"1edd8c0f-4a84-40f9-bd4c-b7ef052c2c09"],
+Cell[5055, 104, 1108, 20, 324, "Text",ExpressionUUID->"f1c61e7c-e63f-4981-9b06-f1513bb17b54"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6200, 129, 289, 4, 52, "Section",ExpressionUUID->"389a4e19-5fbb-4316-8b1f-bf0b96895a28"],
+Cell[6492, 135, 2792, 37, 372, "Text",ExpressionUUID->"00405ee7-8b14-4a7c-baa6-b1955e6b54d8"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9321, 177, 235, 3, 52, "Section",ExpressionUUID->"32b8b325-f318-45ab-809c-4468d099fafe"],
+Cell[9559, 182, 225, 4, 36, "Text",ExpressionUUID->"a1187bc8-f26d-410a-8910-e68f63939ab0"],
+Cell[CellGroupData[{
+Cell[9809, 190, 213, 3, 49, "Subsection",ExpressionUUID->"ac0241ee-2cf6-4453-bfb7-6f48f23756db"],
+Cell[10025, 195, 630, 10, 84, "Text",ExpressionUUID->"bd791215-5d00-420d-87c7-085b2c8ec854"],
+Cell[10658, 207, 417, 10, 61, "Input",ExpressionUUID->"3ff497d2-2b28-409b-a90c-4a9e2c1ae5f0"],
+Cell[11078, 219, 301, 7, 36, "Text",ExpressionUUID->"5b9ca5b5-73ac-41a4-9a44-67b84d1562b2"],
+Cell[11382, 228, 278, 6, 34, "Input",ExpressionUUID->"4b0732f9-a2dc-45ab-8f61-5ccfc6b5db11"],
+Cell[11663, 236, 554, 9, 84, "Text",ExpressionUUID->"00124ca6-4fd2-49cc-ad9b-ec63a8854ad2"],
+Cell[12220, 247, 1629, 41, 217, "Input",ExpressionUUID->"2c981883-99ed-400d-836c-2fb093678dd1"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13886, 293, 215, 3, 49, "Subsection",ExpressionUUID->"3e8464ae-6bbb-44dd-9c4f-20c21a7279eb"],
+Cell[14104, 298, 1273, 19, 180, "Text",ExpressionUUID->"c1068dd7-fd88-4262-85a1-9d55299dd854"],
+Cell[15380, 319, 1826, 44, 217, "Input",ExpressionUUID->"5d3c4c65-e9f6-409d-8cf9-a024b8279e56"],
+Cell[17209, 365, 3587, 85, 373, "Input",ExpressionUUID->"75c541cc-cadd-434e-a347-c0be33f9eb9a"],
+Cell[20799, 452, 660, 10, 84, "Text",ExpressionUUID->"6c088496-ad5e-40e2-b51f-1cabef8b4658"],
+Cell[21462, 464, 1240, 30, 87, "Input",ExpressionUUID->"2e2f6b58-86fa-4947-bab9-e3a062b8048b"],
+Cell[22705, 496, 503, 9, 60, "Text",ExpressionUUID->"71e34c34-8095-4560-9799-660b4fa9c7a6"],
+Cell[23211, 507, 2980, 76, 243, "Input",ExpressionUUID->"75f8ff59-57f4-4ac1-b436-c706188fb2a5"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

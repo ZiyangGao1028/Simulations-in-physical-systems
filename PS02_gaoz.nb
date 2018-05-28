@@ -1,0 +1,137 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      4567,        127]
+NotebookOptionsPosition[      4168,        112]
+NotebookOutlinePosition[      4521,        128]
+CellTagsIndexPosition[      4478,        125]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Physics", " ", "234"}], " "}], "\[IndentingNewLine]", 
+ RowBox[{"ps", 
+  RowBox[{"#2", "/", "A"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Ziyang", " ", "Gao"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"4", "/", "1"}], "/", "2018"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"5.", " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(", "a", ")"}], "  ", "1.", " ", 
+  RowBox[{"{", 
+   RowBox[{"H", ",", "T", ",", "T", ",", "H", ",", "T", ",", "T"}], 
+   "}"}]}], "\[IndentingNewLine]", 
+ RowBox[{"\t", 
+  RowBox[{"2.", " ", 
+   RowBox[{"{", 
+    RowBox[{"T", ",", "T"}], "}"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\t", 
+  RowBox[{"3.", " ", 
+   RowBox[{"{", 
+    RowBox[{
+    "H", ",", "H", ",", "H", ",", "H", ",", "H", ",", "H", ",", "T", ",", "H",
+      ",", "H", ",", "T", ",", "T", ",", "T", ",", "H", ",", "H", ",", "T", 
+     ",", "H", ",", "H", ",", "T", ",", "T", ",", "H", ",", "H", ",", "T", 
+     ",", "H", ",", "H"}], "}"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\t", 
+  RowBox[{"4.", " ", 
+   RowBox[{"{", 
+    RowBox[{"T", ",", "T"}], "}"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\t", 
+  RowBox[{"5.", " ", 
+   RowBox[{"{", 
+    RowBox[{
+    "H", ",", "H", ",", "H", ",", "H", ",", "H", ",", "H", ",", "T", ",", "T",
+      ",", "H", ",", "H", ",", "H", ",", "T", ",", "T", ",", "H", ",", "H", 
+     ",", "H"}], "}"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\t", 
+  RowBox[{"6.", " ", 
+   RowBox[{"{", 
+    RowBox[{"H", ",", "T", ",", "T", ",", "T"}], 
+    "}"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\t", 
+  RowBox[{"7.", " ", 
+   RowBox[{"{", 
+    RowBox[{
+    "H", ",", "T", ",", "H", ",", "H", ",", "H", ",", "H", ",", "H", ",", "H",
+      ",", "H", ",", "H"}], "}"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\t", 
+  RowBox[{"8.", 
+   RowBox[{"{", 
+    RowBox[{"T", ",", "H", ",", "T", ",", "H", ",", "T", ",", "T"}], 
+    "}"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\t", 
+  RowBox[{"9.", " ", 
+   RowBox[{"{", 
+    RowBox[{"T", ",", "H", ",", "T", ",", "T"}], 
+    "}"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\t", 
+  RowBox[{"10.", " ", 
+   RowBox[{"{", 
+    RowBox[{
+    "H", ",", "H", ",", "T", ",", "H", ",", "T", ",", "T", ",", "T", ",", 
+     "T"}], "}"}]}], "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",\
+
+ CellChangeTimes->{{3.731594753688108*^9, 3.731594910042232*^9}, {
+  3.731594949882284*^9, 3.731595048657195*^9}, {3.731595279053879*^9, 
+  3.731595484498858*^9}, {3.731595532017178*^9, 3.731595582816142*^9}, {
+  3.7315956253085213`*^9, 
+  3.7315956422721643`*^9}},ExpressionUUID->"d9c3439e-0378-4893-9226-\
+89add1cb99c0"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(", "b", ")"}], " ", "1.", " ", "What", " ", "is", " ", "the", " ",
+   "expectation", " ", "of", " ", "repetition", " ", "times", " ", "of", " ", 
+  "the", " ", "game", " ", "until", " ", "someone", " ", 
+  RowBox[{"lose", "?", "\n", "     ", "2."}], " ", "What", " ", "is", " ", 
+  "the", " ", "probability", " ", "that", " ", "I", " ", "will", " ", "lose", 
+  " ", "in", " ", "the", " ", 
+  RowBox[{"game", "?", "\n", "     ", "3."}], " ", "What", " ", "is", " ", 
+  "the", " ", "standard", " ", "deviation", " ", "of", " ", "times", " ", 
+  "of", " ", "game", " ", "played", " ", "until", " ", "someone", " ", 
+  RowBox[{"lose", "?", "\n", "  "}]}]], "Input",
+ CellChangeTimes->{{3.731595588073704*^9, 3.73159562143011*^9}, {
+  3.73159565213981*^9, 3.7315957390763483`*^9}, {3.731595783226047*^9, 
+  3.73159582684356*^9}, {3.731596793095636*^9, 
+  3.731596809360302*^9}},ExpressionUUID->"20bfb285-4c3b-44fe-b024-\
+12d7128609ab"]
+},
+WindowSize->{808, 814},
+WindowMargins->{{Automatic, -4}, {Automatic, 0}},
+FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
+2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 2637, 72, 388, "Input",ExpressionUUID->"d9c3439e-0378-4893-9226-89add1cb99c0"],
+Cell[3198, 94, 966, 16, 94, "Input",ExpressionUUID->"20bfb285-4c3b-44fe-b024-12d7128609ab"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

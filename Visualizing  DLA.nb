@@ -1,0 +1,4754 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    176751,       4746]
+NotebookOptionsPosition[    174514,       4699]
+NotebookOutlinePosition[    174866,       4715]
+CellTagsIndexPosition[    174823,       4712]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[{
+ "Physics 234 \nPS #10 / Part B (25)\n",
+ StyleBox["Code Evaluation on Chapter 3 of CSM",
+  FontSize->36]
+}], "Title",
+ CellChangeTimes->{{3.731933741464285*^9, 3.731933811667729*^9}, {
+  3.734123871569598*^9, 
+  3.734123961506069*^9}},ExpressionUUID->"f60862d6-b9c2-4d54-aad0-\
+1c508f4d5ae8"],
+
+Cell[TextData[StyleBox["Ziyang Gao\n4/30/2018",
+ FontSize->18]], "Text",
+ CellChangeTimes->{{3.731933819521956*^9, 3.731933824538842*^9}, {
+  3.734123967468067*^9, 
+  3.734123973249997*^9}},ExpressionUUID->"049d084c-5cc6-4fa6-8c01-\
+140dbd9239dc"],
+
+Cell[CellGroupData[{
+
+Cell["Section 1: What is the problem about", "Section",
+ CellChangeTimes->{{3.731933877737628*^9, 3.731933884921731*^9}, {
+  3.731934100769842*^9, 3.7319341152049837`*^9}, {3.7319341676901703`*^9, 
+  3.731934206224195*^9}, {3.734129566554892*^9, 
+  3.7341295852514677`*^9}},ExpressionUUID->"2a78b891-8f69-489f-b836-\
+50cee499f91c"],
+
+Cell[TextData[StyleBox["\tRead the following three sections in Chapter 3 in \
+CSM: Introduction, 3.1 (The Diffusion-Limited Aggregation Model), and 3.2 \
+(Visualizing Diffusion-Limited Aggregation). Then, work through the code in \
+these sections in your own notebook. \n\tYour notebook should contain all the \
+code and appropriate output, along with comments on any of the code you didn\
+\[CloseCurlyQuote]t understand or that did not work correctly. In the last \
+section of your notebook, include all new functions and structures (ones we \
+have not discussed in class) that were used or mentioned in the sections.",
+ FontSize->18]], "Text",
+ CellChangeTimes->{{3.731934230992525*^9, 3.731934244038454*^9}, {
+  3.731934291164131*^9, 3.731934299507243*^9}, {3.7319343516085052`*^9, 
+  3.73193435360321*^9}, {3.73193440429664*^9, 3.731934488422429*^9}, {
+  3.731935615701275*^9, 3.731935618086338*^9}, {3.734124003643029*^9, 
+  3.734124024692873*^9}, {3.734124081311233*^9, 3.73412408682111*^9}},
+ FontSize->16,ExpressionUUID->"37090aca-825f-4e58-aca8-a48908ac4f8a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Section 2: Code piece and code check", "Section",
+ CellChangeTimes->{{3.731935483103862*^9, 3.731935498483976*^9}, {
+  3.731935551408482*^9, 3.731935582598387*^9}, {3.734129557557165*^9, 
+  3.734129580436962*^9}, {3.734129627305879*^9, 
+  3.7341296297110786`*^9}},ExpressionUUID->"22e15939-c418-4e48-871f-\
+3714a656b723"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"DLA", "[", 
+   RowBox[{"s_Integer", ",", "n_Integer"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"loc", ",", "rad", ",", 
+      RowBox[{"particleCount", "=", "0"}], ",", 
+      RowBox[{"stepChoices", "=", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"1", ",", "0"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "1"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "1"}], ",", "0"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", 
+           RowBox[{"-", "1"}]}], "}"}]}], "}"}]}]}], "}"}], ",", 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"occupiedSites", "=", 
+      RowBox[{"{", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], "}"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"While", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Length", "[", "occupiedSites", "]"}], "<", "n"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"++", "particleCount"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"rad", "=", 
+         RowBox[{
+          RowBox[{"Max", "[", 
+           RowBox[{"Abs", "[", "occupiedSites", "]"}], "]"}], "+", "s"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"loc", "=", 
+         RowBox[{"FixedPoint", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"#", "+", 
+              RowBox[{"stepChoices", "[", 
+               RowBox[{"[", 
+                RowBox[{"Random", "[", 
+                 RowBox[{"Integer", ",", 
+                  RowBox[{"{", 
+                   RowBox[{"1", ",", "4"}], "}"}]}], "]"}], "]"}], "]"}]}], 
+             ")"}], "&"}], ",", "\[IndentingNewLine]", "  ", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Round", "[", 
+              RowBox[{"rad", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"Cos", "[", "#", "]"}], ",", 
+                 RowBox[{"Sin", "[", "#", "]"}]}], "}"}]}], "]"}], "&"}], "[", 
+            RowBox[{"Random", "[", 
+             RowBox[{"Real", ",", 
+              RowBox[{"{", 
+               RowBox[{"0", ",", 
+                RowBox[{"N", "[", 
+                 RowBox[{"2", " ", "Pi"}], "]"}]}], "}"}]}], "]"}], "]"}], 
+           ",", "\[IndentingNewLine]", 
+           RowBox[{"SameTest", "\[Rule]", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"Apply", "[", 
+                 RowBox[{"Plus", ",", 
+                  RowBox[{"#2", "^", "2"}]}], "]"}], ">", 
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{"rad", "+", "s"}], ")"}], "^", "2"}]}], "||", 
+               "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Intersection", "[", 
+                 RowBox[{"occupiedSites", ",", 
+                  RowBox[{"Map", "[", 
+                   RowBox[{
+                    RowBox[{"Function", "[", 
+                    RowBox[{"y", ",", 
+                    RowBox[{"y", "+", "#2"}]}], "]"}], ",", "stepChoices"}], 
+                   "]"}]}], "]"}], "\[NotEqual]", 
+                RowBox[{"{", "}"}]}]}], "&"}], ")"}]}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Apply", "[", 
+            RowBox[{"Plus", ",", 
+             RowBox[{"loc", "^", "2"}]}], "]"}], "<", 
+           RowBox[{"rad", "^", "2"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"occupiedSites", "=", 
+           RowBox[{"Join", "[", 
+            RowBox[{"occupiedSites", ",", 
+             RowBox[{"{", "loc", "}"}]}], "]"}]}]}], "]"}]}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+      "\"\<The number of particles released was\>\"", ",", "particleCount"}], 
+      "]"}], ";", "\[IndentingNewLine]", "occupiedSites"}]}], 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.734126034121921*^9, 3.734126124441103*^9}, {
+  3.734126335057064*^9, 3.73412641528855*^9}, {3.734126462213449*^9, 
+  3.7341265006465883`*^9}, {3.7341268399857407`*^9, 3.734126938462708*^9}, {
+  3.734128756106583*^9, 3.734129146979855*^9}, {3.734129291674519*^9, 
+  3.7341294582897243`*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"26c287f2-07be-4859-9be8-468d147dba9b"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"agg", "=", 
+   RowBox[{"DLA", "[", 
+    RowBox[{"10", ",", "30"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.7341296360204277`*^9, 3.734129667431314*^9}, {
+   3.734178093772045*^9, 3.7341781027180443`*^9}, 3.734178251066429*^9},
+ CellLabel->"In[2]:=",ExpressionUUID->"e0cfc88c-c091-475c-a471-77858542d757"],
+
+Cell[BoxData[
+ FormBox[
+  InterpretationBox[
+   RowBox[{"\<\"The number of particles released was\"\>", 
+    "\[InvisibleSpace]", "105"}],
+   SequenceForm["The number of particles released was", 105],
+   Editable->False], TraditionalForm]], "Print",
+ CellChangeTimes->{3.73453914334759*^9},
+ CellLabel->
+  "During evaluation of \
+In[2]:=",ExpressionUUID->"bea2999e-bea1-4cee-be70-abc82731ea48"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ShowDLA", "[", "sites_", "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"structures", ",", 
+      RowBox[{"s", "=", 
+       RowBox[{"Length", "[", "sites", "]"}]}]}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"structures", "=", 
+      RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Map", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"AppendTo", "[", 
+          RowBox[{"structures", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Hue", "[", 
+              RowBox[{".99", 
+               RowBox[{"#", "/", "s"}]}], "]"}], ",", 
+             RowBox[{"Rectangle", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"sites", "[", 
+                 RowBox[{"[", "#", "]"}], "]"}], "-", 
+                RowBox[{"{", 
+                 RowBox[{"0.5", ",", "0.5"}], "}"}]}], ",", 
+               RowBox[{
+                RowBox[{"sites", "[", 
+                 RowBox[{"[", "#", "]"}], "]"}], "+", 
+                RowBox[{"{", 
+                 RowBox[{"0.5", ",", "0.5"}], "}"}]}]}], "]"}], ",", 
+             RowBox[{"RGBColor", "[", 
+              RowBox[{"1", ",", "1", ",", "1"}], "]"}], ",", 
+             RowBox[{"Text", "[", 
+              RowBox[{"#", ",", 
+               RowBox[{"sites", "[", 
+                RowBox[{"[", "#", "]"}], "]"}]}], "]"}]}], "}"}]}], "]"}], 
+         ")"}], "&"}], ",", 
+       RowBox[{"Range", "[", "s", "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+     
+     RowBox[{"Show", "[", 
+      RowBox[{
+       RowBox[{"Graphics", "[", "structures", "]"}], ",", 
+       RowBox[{"Axes", "\[Rule]", "None"}], ",", 
+       RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"ShowDLA", "[", "agg", "]"}]}], "Input",
+ CellChangeTimes->{{3.734177537649493*^9, 3.734177548581628*^9}, {
+  3.734177618688319*^9, 3.734177974604793*^9}, {3.7341780756735983`*^9, 
+  3.734178083393511*^9}, {3.73417821882504*^9, 3.734178220335318*^9}, {
+  3.7341783093479853`*^9, 3.734178310363353*^9}, {3.734178353524598*^9, 
+  3.734178357134836*^9}, {3.734180538566614*^9, 3.734180556102749*^9}},
+ CellLabel->"In[30]:=",ExpressionUUID->"603f6b68-8e45-47f3-9c15-0854690cb7e4"],
+
+Cell[BoxData[
+ FormBox[
+  GraphicsBox[{{
+     {Hue[0.0099], RectangleBox[{-0.5, -0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["1", {0, 0}]}}, {
+     {Hue[0.0198], RectangleBox[{-0.5, 0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["2", {0, 1}]}}, {
+     {Hue[0.029699999999999997`], RectangleBox[{-1.5, 0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["3", {-1, 1}]}}, {
+     {Hue[0.0396], RectangleBox[{-1.5, 1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["4", {-1, 2}]}}, {
+     {Hue[0.0495], RectangleBox[{-2.5, 1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["5", {-2, 2}]}}, {
+     {Hue[0.059399999999999994`], RectangleBox[{-2.5, 2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["6", {-2, 3}]}}, {
+     {Hue[0.0693], RectangleBox[{-0.5, 1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["7", {0, 2}]}}, {
+     {Hue[0.0792], RectangleBox[{0.5, 1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["8", {1, 2}]}}, {
+     {Hue[0.0891], RectangleBox[{-2.5, 0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["9", {-2, 1}]}}, {
+     {Hue[0.099], RectangleBox[{-1.5, 2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["10", {-1, 3}]}}, {
+     {Hue[0.1089], RectangleBox[{-2.5, -0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["11", {-2, 0}]}}, {
+     {Hue[0.11879999999999999`], RectangleBox[{0.5, 2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["12", {1, 3}]}}, {
+     {Hue[0.1287], RectangleBox[{0.5, 3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["13", {1, 4}]}}, {
+     {Hue[0.1386], RectangleBox[{-3.5, -0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["14", {-3, 0}]}}, {
+     {Hue[0.1485], RectangleBox[{1.5, 1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["15", {2, 2}]}}, {
+     {Hue[0.1584], RectangleBox[{-3.5, -1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["16", {-3, -1}]}}, {
+     {Hue[0.1683], RectangleBox[{0.5, -0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["17", {1, 0}]}}, {
+     {Hue[0.1782], RectangleBox[{-4.5, -1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["18", {-4, -1}]}}, {
+     {Hue[0.1881], RectangleBox[{-5.5, -1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["19", {-5, -1}]}}, {
+     {Hue[0.198], RectangleBox[{-2.5, 3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["20", {-2, 4}]}}, {
+     {Hue[0.2079], RectangleBox[{-6.5, -1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["21", {-6, -1}]}}, {
+     {Hue[0.2178], RectangleBox[{-6.5, -2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["22", {-6, -2}]}}, {
+     {Hue[0.2277], RectangleBox[{2.5, 1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["23", {3, 2}]}}, {
+     {Hue[0.23759999999999998`], RectangleBox[{2.5, 0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["24", {3, 1}]}}, {
+     {Hue[0.2475], RectangleBox[{-0.5, -1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["25", {0, -1}]}}, {
+     {Hue[0.2574], RectangleBox[{-3.5, 3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["26", {-3, 4}]}}, {
+     {Hue[0.26730000000000004`], RectangleBox[{-7.5, -2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["27", {-7, -2}]}}, {
+     {Hue[0.2772], RectangleBox[{-7.5, -3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["28", {-7, -3}]}}, {
+     {Hue[0.28709999999999997`], RectangleBox[{2.5, 2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["29", {3, 3}]}}, {
+     {Hue[0.297], RectangleBox[{-8.5, -2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["30", {-8, -2}]}}, {
+     {Hue[0.3069], RectangleBox[{0.5, 4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["31", {1, 5}]}}, {
+     {Hue[0.3168], RectangleBox[{-9.5, -2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["32", {-9, -2}]}}, {
+     {Hue[0.3267], RectangleBox[{0.5, 5.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["33", {1, 6}]}}, {
+     {Hue[0.3366], RectangleBox[{-7.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["34", {-7, -4}]}}, {
+     {Hue[0.3465], RectangleBox[{-9.5, -3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["35", {-9, -3}]}}, {
+     {Hue[0.3564], RectangleBox[{-9.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["36", {-9, -4}]}}, {
+     {Hue[0.3663], RectangleBox[{-6.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["37", {-6, -4}]}}, {
+     {Hue[0.3762], RectangleBox[{-6.5, -5.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["38", {-6, -5}]}}, {
+     {Hue[0.3861], RectangleBox[{-6.5, -6.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["39", {-6, -6}]}}, {
+     {Hue[0.396], RectangleBox[{2.5, 3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["40", {3, 4}]}}, {
+     {Hue[0.4059], RectangleBox[{-9.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["41", {-9, -4}]}}, {
+     {Hue[0.4158], RectangleBox[{-10.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["42", {-10, -4}]}}, {
+     {Hue[0.42569999999999997`], RectangleBox[{-3.5, 1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["43", {-3, 2}]}}, {
+     {Hue[0.4356], RectangleBox[{-5.5, -5.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["44", {-5, -5}]}}, {
+     {Hue[0.4455], RectangleBox[{-11.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["45", {-11, -4}]}}, {
+     {Hue[0.4554], RectangleBox[{-4.5, -5.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["46", {-4, -5}]}}, {
+     {Hue[0.4653], RectangleBox[{-7.5, -6.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["47", {-7, -6}]}}, {
+     {Hue[0.47519999999999996`], RectangleBox[{0.5, 6.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["48", {1, 7}]}}, {
+     {Hue[0.4851], RectangleBox[{-10.5, -2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["49", {-10, -2}]}}, {
+     {Hue[0.495], RectangleBox[{-12.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["50", {-12, -4}]}}, {
+     {Hue[0.5049], RectangleBox[{0.5, 7.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["51", {1, 8}]}}, {
+     {Hue[0.5148], RectangleBox[{-0.5, -2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["52", {0, -2}]}}, {
+     {Hue[0.5247], RectangleBox[{1.5, 7.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["53", {2, 8}]}}, {
+     {Hue[0.5346000000000001], RectangleBox[{-9.5, -1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["54", {-9, -1}]}}, {
+     {Hue[0.5445], RectangleBox[{-10.5, -1.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["55", {-10, -1}]}}, {
+     {Hue[0.5544], RectangleBox[{-6.5, -7.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["56", {-6, -7}]}}, {
+     {Hue[0.5642999999999999], RectangleBox[{-1.5, -2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["57", {-1, -2}]}}, {
+     {Hue[0.5741999999999999], RectangleBox[{-12.5, -3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["58", {-12, -3}]}}, {
+     {Hue[0.5841], RectangleBox[{-0.5, -3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["59", {0, -3}]}}, {
+     {Hue[0.594], RectangleBox[{-12.5, -5.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["60", {-12, -5}]}}, {
+     {Hue[0.6039], RectangleBox[{-12.5, -6.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["61", {-12, -6}]}}, {
+     {Hue[0.6138], RectangleBox[{2.5, 4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["62", {3, 5}]}}, {
+     {Hue[0.6237], RectangleBox[{1.5, 8.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["63", {2, 9}]}}, {
+     {Hue[0.6336], RectangleBox[{-10.5, -0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["64", {-10, 0}]}}, {
+     {Hue[0.6435], RectangleBox[{2.5, -0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["65", {3, 0}]}}, {
+     {Hue[0.6534], RectangleBox[{-2.5, 4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["66", {-2, 5}]}}, {
+     {Hue[0.6633], RectangleBox[{-0.5, 5.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["67", {0, 6}]}}, {
+     {Hue[0.6732], RectangleBox[{3.5, -0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["68", {4, 0}]}}, {
+     {Hue[0.6830999999999999], RectangleBox[{-9.5, -5.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["69", {-9, -5}]}}, {
+     {Hue[0.693], RectangleBox[{-10.5, 0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["70", {-10, 1}]}}, {
+     {Hue[0.7029], RectangleBox[{0.5, 8.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["71", {1, 9}]}}, {
+     {Hue[0.7128], RectangleBox[{2.5, 7.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["72", {3, 8}]}}, {
+     {Hue[0.7227], RectangleBox[{-0.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["73", {0, -4}]}}, {
+     {Hue[0.7326], RectangleBox[{2.5, 6.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["74", {3, 7}]}}, {
+     {Hue[0.7424999999999999], RectangleBox[{-0.5, -5.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["75", {0, -5}]}}, {
+     {Hue[0.7524], RectangleBox[{-9.5, 0.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["76", {-9, 1}]}}, {
+     {Hue[0.7623], RectangleBox[{-13.5, -3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["77", {-13, -3}]}}, {
+     {Hue[0.7722], RectangleBox[{-3.5, 4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["78", {-3, 5}]}}, {
+     {Hue[0.7821], RectangleBox[{2.5, 8.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["79", {3, 9}]}}, {
+     {Hue[0.792], RectangleBox[{3.5, 7.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["80", {4, 8}]}}, {
+     {Hue[0.8019000000000001], RectangleBox[{3.5, 8.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["81", {4, 9}]}}, {
+     {Hue[0.8118], RectangleBox[{-6.5, -8.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["82", {-6, -8}]}}, {
+     {Hue[0.8217], RectangleBox[{3.5, 3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["83", {4, 4}]}}, {
+     {Hue[0.8316], RectangleBox[{-0.5, -6.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["84", {0, -6}]}}, {
+     {Hue[0.8415], RectangleBox[{-5.5, -8.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["85", {-5, -8}]}}, {
+     {Hue[0.8513999999999999], RectangleBox[{-14.5, -3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["86", {-14, -3}]}}, {
+     {Hue[0.8613], RectangleBox[{-14.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["87", {-14, -4}]}}, {
+     {Hue[0.8712], RectangleBox[{-15.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["88", {-15, -4}]}}, {
+     {Hue[0.8811], RectangleBox[{-16.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["89", {-16, -4}]}}, {
+     {Hue[0.891], RectangleBox[{-9.5, -6.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["90", {-9, -6}]}}, {
+     {Hue[0.9009], RectangleBox[{-0.5, 8.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["91", {0, 9}]}}, {
+     {Hue[0.9108], RectangleBox[{0.5, -6.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["92", {1, -6}]}}, {
+     {Hue[0.9207000000000001], RectangleBox[{-3.5, 5.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["93", {-3, 6}]}}, {
+     {Hue[0.9306], RectangleBox[{-16.5, -3.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["94", {-16, -3}]}}, {
+     {Hue[0.9405], RectangleBox[{-14.5, -2.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["95", {-14, -2}]}}, {
+     {Hue[0.9503999999999999], RectangleBox[{-16.5, -5.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["96", {-16, -5}]}}, {
+     {Hue[0.9602999999999999], RectangleBox[{-1.5, 8.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["97", {-1, 9}]}}, {
+     {Hue[0.9702], RectangleBox[{-4.5, -8.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["98", {-4, -8}]}}, {
+     {Hue[0.9801], RectangleBox[{4.5, 8.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["99", {5, 9}]}}, {
+     {Hue[0.99], RectangleBox[{-17.5, -4.5}]}, 
+     {RGBColor[1, 1, 1], InsetBox["100", {-17, -4}]}}},
+   AspectRatio->Automatic,
+   Axes->None,
+   PlotRange->All], TraditionalForm]], "Output",
+ CellChangeTimes->{
+  3.734178226903988*^9, 3.734178259787589*^9, 3.734178315651781*^9, 
+   3.734178358345459*^9, 3.7341784241143827`*^9, 3.734180560172997*^9, {
+   3.7341811793133497`*^9, 3.734181182323202*^9}, 3.734181444556488*^9},
+ CellLabel->"Out[31]=",ExpressionUUID->"e119d0fc-5fc6-437b-b56c-bf50c228aab4"]
+}, Open  ]],
+
+Cell[TextData[StyleBox["The original code can\[CloseCurlyQuote]t show the \
+graph properly, so I deleted \[OpenCurlyDoubleQuote]opts_\
+\[CloseCurlyDoubleQuote] and all the opts in the code to help it come out.",
+ FontSize->18]], "Text",
+ CellChangeTimes->{{3.734178364027896*^9, 3.734178395199114*^9}, 
+   3.734180584399555*^9, {3.734180699236361*^9, 3.734180791204403*^9}, 
+   3.734181111296633*^9},ExpressionUUID->"bd23dacc-f662-4988-a016-\
+3c4cf113d16c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ShowDLA2", "[", 
+   RowBox[{"sites_", ",", "opts_Rule"}], "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"len", "=", 
+       RowBox[{"Length", "[", "sites", "]"}]}], ",", "points", ",", 
+      "colors"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"points", "=", 
+      RowBox[{"Map", "[", 
+       RowBox[{"Point", ",", "sites"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"colors", "=", 
+      RowBox[{"Map", "[", 
+       RowBox[{"Hue", ",", 
+        RowBox[{
+         RowBox[{"Range", "[", "len", "]"}], "/", "len"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Show", "[", 
+      RowBox[{"Graphics", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"PointSize", "[", 
+           RowBox[{"1", "/", 
+            RowBox[{"Sqrt", "[", "len", "]"}]}], "]"}], ",", 
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{"colors", ",", "points"}], "}"}], "]"}]}], "}"}], ",", 
+        "opts", ",", 
+        RowBox[{"Axes", "\[Rule]", "None"}], ",", 
+        RowBox[{"AspectRatio", "\[Rule]", "Automatic"}], ",", 
+        RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"agg", "=", 
+   RowBox[{"DLA", "[", 
+    RowBox[{"2", ",", "1000"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"ShowDLA2", "[", 
+  RowBox[{"agg", ",", 
+   RowBox[{"Background", "\[Rule]", 
+    RowBox[{"GrayLevel", "[", "0", "]"}]}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.734179930283689*^9, 3.7341802959792137`*^9}, {
+   3.734180440034676*^9, 3.734180441953171*^9}, 3.734180632779357*^9, {
+   3.73418066932099*^9, 3.734180681188099*^9}, 3.734180942989758*^9, {
+   3.734180984853559*^9, 3.734181013363143*^9}, {3.7341810747953987`*^9, 
+   3.7341811028913383`*^9}, 3.734181144814192*^9, 3.734181194161668*^9, 
+   3.734181523426528*^9, {3.7341817486679783`*^9, 
+   3.734181751945739*^9}},ExpressionUUID->"1fe3a2dc-853b-46ff-963f-\
+733bd8f60dc8"],
+
+Cell[BoxData[
+ FormBox[
+  InterpretationBox[
+   RowBox[{"\<\"The number of particles released was\"\>", 
+    "\[InvisibleSpace]", "4605"}],
+   SequenceForm["The number of particles released was", 4605],
+   Editable->False], TraditionalForm]], "Print",
+ CellChangeTimes->{{3.734181186481226*^9, 3.734181196271489*^9}, 
+   3.734181588949767*^9},
+ CellLabel->
+  "During evaluation of \
+In[32]:=",ExpressionUUID->"a2d9f1e1-b576-4ac3-80d8-f754d8c45bc1"],
+
+Cell[BoxData[
+ FormBox[
+  GraphicsBox[
+   {PointSize[
+     NCache[Rational[1, 10] 10^Rational[-1, 2], 0.0316227766016838]], 
+    {Hue[
+      NCache[
+       Rational[1, 1000], 0.001]], PointBox[{0, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 500], 0.002]], PointBox[{1, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 1000], 0.003]], PointBox[{0, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 250], 0.004]], PointBox[{1, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 200], 0.005]], PointBox[{2, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 500], 0.006]], PointBox[{-1, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 1000], 0.007]], PointBox[{-2, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 125], 0.008]], PointBox[{2, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 1000], 0.009]], PointBox[{-1, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 100], 0.01]], PointBox[{2, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[11, 1000], 0.011]], PointBox[{-2, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 250], 0.012]], PointBox[{3, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[13, 1000], 0.013]], PointBox[{3, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 500], 0.014]], PointBox[{-2, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 200], 0.015]], PointBox[{-2, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[2, 125], 0.016]], PointBox[{-2, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[17, 1000], 0.017]], PointBox[{4, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 500], 0.018]], PointBox[{5, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[19, 1000], 0.019]], PointBox[{-2, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 50], 0.02]], PointBox[{-2, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[21, 1000], 0.021]], PointBox[{-3, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[11, 500], 0.022]], PointBox[{5, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[23, 1000], 0.023]], PointBox[{2, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 125], 0.024]], PointBox[{-1, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 40], 0.025]], PointBox[{3, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[13, 500], 0.026]], PointBox[{-3, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[27, 1000], 0.027]], PointBox[{-4, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 250], 0.028]], PointBox[{-5, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[29, 1000], 0.029]], PointBox[{-5, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 100], 0.03]], PointBox[{5, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[31, 1000], 0.031]], PointBox[{-2, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[4, 125], 0.032]], PointBox[{-5, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[33, 1000], 0.033]], PointBox[{-1, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[17, 500], 0.034]], PointBox[{-5, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 200], 0.035]], PointBox[{6, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 250], 0.036]], PointBox[{4, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[37, 1000], 0.037]], PointBox[{7, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[19, 500], 0.038]], PointBox[{8, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[39, 1000], 0.039]], PointBox[{-5, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 25], 0.04]], PointBox[{-6, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[41, 1000], 0.041]], PointBox[{8, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[21, 500], 0.042]], PointBox[{-5, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[43, 1000], 0.043]], PointBox[{2, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[11, 250], 0.044]], PointBox[{8, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 200], 0.045]], PointBox[{-6, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[23, 500], 0.046]], PointBox[{-2, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[47, 1000], 0.047]], PointBox[{9, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[6, 125], 0.048]], PointBox[{9, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[49, 1000], 0.049]], PointBox[{-1, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 20], 0.05]], PointBox[{-2, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[51, 1000], 0.051]], PointBox[{9, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[13, 250], 0.052]], PointBox[{-6, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[53, 1000], 0.053]], PointBox[{-7, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[27, 500], 0.054]], PointBox[{9, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[11, 200], 0.055]], PointBox[{-6, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 125], 0.056]], PointBox[{-1, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[57, 1000], 0.057]], PointBox[{10, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[29, 500], 0.058]], PointBox[{9, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[59, 1000], 0.059]], PointBox[{-7, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 50], 0.06]], PointBox[{2, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[61, 1000], 0.061]], PointBox[{9, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[31, 500], 0.062]], PointBox[{0, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[63, 1000], 0.063]], PointBox[{10, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[8, 125], 0.064]], PointBox[{11, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[13, 200], 0.065]], PointBox[{11, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[33, 500], 0.066]], PointBox[{-1, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[67, 1000], 0.067]], PointBox[{11, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[17, 250], 0.068]], PointBox[{-5, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[69, 1000], 0.069]], PointBox[{-6, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 100], 0.07]], PointBox[{-8, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[71, 1000], 0.071]], PointBox[{10, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 125], 0.072]], PointBox[{0, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[73, 1000], 0.073]], PointBox[{-7, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[37, 500], 0.074]], PointBox[{-2, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 40], 0.075]], PointBox[{-8, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[19, 250], 0.076]], PointBox[{-2, -7}]}, 
+    {Hue[
+      NCache[
+       Rational[77, 1000], 0.077]], PointBox[{-1, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[39, 500], 0.078]], PointBox[{11, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[79, 1000], 0.079]], PointBox[{10, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[2, 25], 0.08]], PointBox[{-7, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[81, 1000], 0.081]], PointBox[{11, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[41, 500], 0.082]], PointBox[{-9, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[83, 1000], 0.083]], PointBox[{-8, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[21, 250], 0.084]], PointBox[{11, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[17, 200], 0.085]], PointBox[{11, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[43, 500], 0.086]], PointBox[{-10, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[87, 1000], 0.087]], PointBox[{-3, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[11, 125], 0.088]], PointBox[{-8, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[89, 1000], 0.089]], PointBox[{-2, -8}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 100], 0.09]], PointBox[{-3, -8}]}, 
+    {Hue[
+      NCache[
+       Rational[91, 1000], 0.091]], PointBox[{9, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[23, 250], 0.092]], PointBox[{-6, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[93, 1000], 0.093]], PointBox[{-5, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[47, 500], 0.094]], PointBox[{5, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[19, 200], 0.095]], PointBox[{9, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[12, 125], 0.096]], PointBox[{12, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[97, 1000], 0.097]], PointBox[{10, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[49, 500], 0.098]], PointBox[{10, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[99, 1000], 0.099]], PointBox[{-11, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 10], 0.1]], PointBox[{11, -7}]}, 
+    {Hue[
+      NCache[
+       Rational[101, 1000], 0.101]], PointBox[{-8, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[51, 500], 0.102]], PointBox[{-2, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[103, 1000], 0.103]], PointBox[{9, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[13, 125], 0.104]], PointBox[{12, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[21, 200], 0.105]], PointBox[{9, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[53, 500], 0.106]], PointBox[{-9, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[107, 1000], 0.107]], PointBox[{11, -8}]}, 
+    {Hue[
+      NCache[
+       Rational[27, 250], 0.108]], PointBox[{-7, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[109, 1000], 0.109]], PointBox[{4, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[11, 100], 0.11]], PointBox[{-7, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[111, 1000], 0.111]], PointBox[{10, -8}]}, 
+    {Hue[
+      NCache[
+       Rational[14, 125], 0.112]], PointBox[{9, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[113, 1000], 0.113]], PointBox[{-9, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[57, 500], 0.114]], PointBox[{12, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[23, 200], 0.115]], PointBox[{13, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[29, 250], 0.116]], PointBox[{-7, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[117, 1000], 0.117]], PointBox[{-3, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[59, 500], 0.118]], PointBox[{-3, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[119, 1000], 0.119]], PointBox[{-10, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 25], 0.12]], PointBox[{-7, 13}]}, 
+    {Hue[
+      NCache[
+       Rational[121, 1000], 0.121]], PointBox[{13, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[61, 500], 0.122]], PointBox[{-5, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[123, 1000], 0.123]], PointBox[{-9, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[31, 250], 0.124]], PointBox[{-7, 13}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 8], 0.125]], PointBox[{10, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[63, 500], 0.126]], PointBox[{-6, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[127, 1000], 0.127]], PointBox[{-11, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[16, 125], 0.128]], PointBox[{13, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[129, 1000], 0.129]], PointBox[{-11, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[13, 100], 0.13]], PointBox[{-7, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[131, 1000], 0.131]], PointBox[{-8, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[33, 250], 0.132]], PointBox[{10, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[133, 1000], 0.133]], PointBox[{-12, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[67, 500], 0.134]], PointBox[{10, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[27, 200], 0.135]], PointBox[{10, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[17, 125], 0.136]], PointBox[{10, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[137, 1000], 0.137]], PointBox[{-1, -8}]}, 
+    {Hue[
+      NCache[
+       Rational[69, 500], 0.138]], PointBox[{11, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[139, 1000], 0.139]], PointBox[{-13, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 50], 0.14]], PointBox[{-7, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[141, 1000], 0.141]], PointBox[{-12, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[71, 500], 0.142]], PointBox[{-3, -7}]}, 
+    {Hue[
+      NCache[
+       Rational[143, 1000], 0.143]], PointBox[{10, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[18, 125], 0.144]], PointBox[{14, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[29, 200], 0.145]], PointBox[{-14, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[73, 500], 0.146]], PointBox[{-5, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[147, 1000], 0.147]], PointBox[{-14, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[37, 250], 0.148]], PointBox[{-12, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[149, 1000], 0.149]], PointBox[{-3, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 20], 0.15]], PointBox[{-7, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[151, 1000], 0.151]], PointBox[{-11, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[19, 125], 0.152]], PointBox[{14, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[153, 1000], 0.153]], PointBox[{-12, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[77, 500], 0.154]], PointBox[{15, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[31, 200], 0.155]], PointBox[{15, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[39, 250], 0.156]], PointBox[{-13, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[157, 1000], 0.157]], PointBox[{12, -8}]}, 
+    {Hue[
+      NCache[
+       Rational[79, 500], 0.158]], PointBox[{9, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[159, 1000], 0.159]], PointBox[{-7, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[4, 25], 0.16]], PointBox[{13, -8}]}, 
+    {Hue[
+      NCache[
+       Rational[161, 1000], 0.161]], PointBox[{12, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[81, 500], 0.162]], PointBox[{-9, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[163, 1000], 0.163]], PointBox[{-13, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[41, 250], 0.164]], PointBox[{-13, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[33, 200], 0.165]], PointBox[{15, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[83, 500], 0.166]], PointBox[{9, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[167, 1000], 0.167]], PointBox[{-4, -7}]}, 
+    {Hue[
+      NCache[
+       Rational[21, 125], 0.168]], PointBox[{-12, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[169, 1000], 0.169]], PointBox[{13, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[17, 100], 0.17]], PointBox[{-13, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[171, 1000], 0.171]], PointBox[{-14, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[43, 250], 0.172]], PointBox[{-3, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[173, 1000], 0.173]], PointBox[{10, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[87, 500], 0.174]], PointBox[{-2, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 40], 0.175]], PointBox[{-4, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[22, 125], 0.176]], PointBox[{-1, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[177, 1000], 0.177]], PointBox[{9, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[89, 500], 0.178]], PointBox[{-11, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[179, 1000], 0.179]], PointBox[{-5, -7}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 50], 0.18]], PointBox[{16, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[181, 1000], 0.181]], PointBox[{-11, 13}]}, 
+    {Hue[
+      NCache[
+       Rational[91, 500], 0.182]], PointBox[{-15, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[183, 1000], 0.183]], PointBox[{-5, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[23, 125], 0.184]], PointBox[{2, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[37, 200], 0.185]], PointBox[{-7, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[93, 500], 0.186]], PointBox[{10, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[187, 1000], 0.187]], PointBox[{-15, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[47, 250], 0.188]], PointBox[{16, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[189, 1000], 0.189]], PointBox[{16, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[19, 100], 0.19]], PointBox[{-15, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[191, 1000], 0.191]], PointBox[{14, -8}]}, 
+    {Hue[
+      NCache[
+       Rational[24, 125], 0.192]], PointBox[{-8, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[193, 1000], 0.193]], PointBox[{11, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[97, 500], 0.194]], PointBox[{-15, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[39, 200], 0.195]], PointBox[{-11, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[49, 250], 0.196]], PointBox[{-6, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[197, 1000], 0.197]], PointBox[{-14, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[99, 500], 0.198]], PointBox[{10, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[199, 1000], 0.199]], PointBox[{11, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 5], 0.2]], PointBox[{-4, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[201, 1000], 0.201]], PointBox[{-16, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[101, 500], 0.202]], PointBox[{-14, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[203, 1000], 0.203]], PointBox[{12, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[51, 250], 0.204]], PointBox[{-7, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[41, 200], 0.205]], PointBox[{12, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[103, 500], 0.206]], PointBox[{-13, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[207, 1000], 0.207]], PointBox[{-16, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[26, 125], 0.208]], PointBox[{-14, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[209, 1000], 0.209]], PointBox[{14, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[21, 100], 0.21]], PointBox[{12, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[211, 1000], 0.211]], PointBox[{-16, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[53, 250], 0.212]], PointBox[{12, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[213, 1000], 0.213]], PointBox[{-8, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[107, 500], 0.214]], PointBox[{-6, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[43, 200], 0.215]], PointBox[{-3, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[27, 125], 0.216]], PointBox[{17, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[217, 1000], 0.217]], PointBox[{18, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[109, 500], 0.218]], PointBox[{-16, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[219, 1000], 0.219]], PointBox[{19, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[11, 50], 0.22]], PointBox[{8, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[221, 1000], 0.221]], PointBox[{9, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[111, 500], 0.222]], PointBox[{-12, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[223, 1000], 0.223]], PointBox[{13, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[28, 125], 0.224]], PointBox[{-16, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 40], 0.225]], PointBox[{10, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[113, 500], 0.226]], PointBox[{19, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[227, 1000], 0.227]], PointBox[{16, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[57, 250], 0.228]], PointBox[{7, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[229, 1000], 0.229]], PointBox[{-11, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[23, 100], 0.23]], PointBox[{-16, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[231, 1000], 0.231]], PointBox[{-16, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[29, 125], 0.232]], PointBox[{7, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[233, 1000], 0.233]], PointBox[{-17, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[117, 500], 0.234]], PointBox[{-17, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[47, 200], 0.235]], PointBox[{18, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[59, 250], 0.236]], PointBox[{13, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[237, 1000], 0.237]], PointBox[{-6, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[119, 500], 0.238]], PointBox[{18, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[239, 1000], 0.239]], PointBox[{-12, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[6, 25], 0.24]], PointBox[{20, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[241, 1000], 0.241]], PointBox[{-5, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[121, 500], 0.242]], PointBox[{11, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[243, 1000], 0.243]], PointBox[{13, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[61, 250], 0.244]], PointBox[{12, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[49, 200], 0.245]], PointBox[{-17, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[123, 500], 0.246]], PointBox[{-5, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[247, 1000], 0.247]], PointBox[{13, 13}]}, 
+    {Hue[
+      NCache[
+       Rational[31, 125], 0.248]], PointBox[{-5, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[249, 1000], 0.249]], PointBox[{13, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 4], 0.25]], PointBox[{14, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[251, 1000], 0.251]], PointBox[{15, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[63, 250], 0.252]], PointBox[{-13, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[253, 1000], 0.253]], PointBox[{15, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[127, 500], 0.254]], PointBox[{14, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[51, 200], 0.255]], PointBox[{-5, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[32, 125], 0.256]], PointBox[{-17, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[257, 1000], 0.257]], PointBox[{-11, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[129, 500], 0.258]], PointBox[{-12, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[259, 1000], 0.259]], PointBox[{0, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[13, 50], 0.26]], PointBox[{14, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[261, 1000], 0.261]], PointBox[{-11, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[131, 500], 0.262]], PointBox[{-8, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[263, 1000], 0.263]], PointBox[{13, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[33, 125], 0.264]], PointBox[{18, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[53, 200], 0.265]], PointBox[{-16, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[133, 500], 0.266]], PointBox[{-2, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[267, 1000], 0.267]], PointBox[{16, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[67, 250], 0.268]], PointBox[{-18, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[269, 1000], 0.269]], PointBox[{-13, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[27, 100], 0.27]], PointBox[{17, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[271, 1000], 0.271]], PointBox[{19, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[34, 125], 0.272]], PointBox[{-5, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[273, 1000], 0.273]], PointBox[{14, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[137, 500], 0.274]], PointBox[{-16, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[11, 40], 0.275]], PointBox[{15, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[69, 250], 0.276]], PointBox[{15, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[277, 1000], 0.277]], PointBox[{-18, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[139, 500], 0.278]], PointBox[{13, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[279, 1000], 0.279]], PointBox[{-10, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 25], 0.28]], PointBox[{-19, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[281, 1000], 0.281]], PointBox[{-11, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[141, 500], 0.282]], PointBox[{15, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[283, 1000], 0.283]], PointBox[{19, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[71, 250], 0.284]], PointBox[{20, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[57, 200], 0.285]], PointBox[{-11, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[143, 500], 0.286]], PointBox[{-4, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[287, 1000], 0.287]], PointBox[{20, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[36, 125], 0.288]], PointBox[{-9, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[289, 1000], 0.289]], PointBox[{12, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[29, 100], 0.29]], PointBox[{16, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[291, 1000], 0.291]], PointBox[{-17, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[73, 250], 0.292]], PointBox[{-9, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[293, 1000], 0.293]], PointBox[{0, -8}]}, 
+    {Hue[
+      NCache[
+       Rational[147, 500], 0.294]], PointBox[{16, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[59, 200], 0.295]], PointBox[{-14, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[37, 125], 0.296]], PointBox[{-12, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[297, 1000], 0.297]], PointBox[{-18, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[149, 500], 0.298]], PointBox[{11, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[299, 1000], 0.299]], PointBox[{-8, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 10], 0.3]], PointBox[{16, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[301, 1000], 0.301]], PointBox[{21, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[151, 500], 0.302]], PointBox[{16, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[303, 1000], 0.303]], PointBox[{15, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[38, 125], 0.304]], PointBox[{17, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[61, 200], 0.305]], PointBox[{18, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[153, 500], 0.306]], PointBox[{-19, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[307, 1000], 0.307]], PointBox[{-9, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[77, 250], 0.308]], PointBox[{1, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[309, 1000], 0.309]], PointBox[{0, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[31, 100], 0.31]], PointBox[{-9, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[311, 1000], 0.311]], PointBox[{20, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[39, 125], 0.312]], PointBox[{17, -7}]}, 
+    {Hue[
+      NCache[
+       Rational[313, 1000], 0.313]], PointBox[{-5, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[157, 500], 0.314]], PointBox[{-20, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[63, 200], 0.315]], PointBox[{17, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[79, 250], 0.316]], PointBox[{18, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[317, 1000], 0.317]], PointBox[{19, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[159, 500], 0.318]], PointBox[{19, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[319, 1000], 0.319]], PointBox[{-16, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[8, 25], 0.32]], PointBox[{20, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[321, 1000], 0.321]], PointBox[{20, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[161, 500], 0.322]], PointBox[{15, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[323, 1000], 0.323]], PointBox[{-20, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[81, 250], 0.324]], PointBox[{-18, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[13, 40], 0.325]], PointBox[{-19, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[163, 500], 0.326]], PointBox[{-4, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[327, 1000], 0.327]], PointBox[{-12, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[41, 125], 0.328]], PointBox[{-16, 13}]}, 
+    {Hue[
+      NCache[
+       Rational[329, 1000], 0.329]], PointBox[{19, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[33, 100], 0.33]], PointBox[{7, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[331, 1000], 0.331]], PointBox[{21, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[83, 250], 0.332]], PointBox[{-3, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[333, 1000], 0.333]], PointBox[{-20, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[167, 500], 0.334]], PointBox[{20, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[67, 200], 0.335]], PointBox[{12, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[42, 125], 0.336]], PointBox[{15, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[337, 1000], 0.337]], PointBox[{-9, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[169, 500], 0.338]], PointBox[{19, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[339, 1000], 0.339]], PointBox[{17, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[17, 50], 0.34]], PointBox[{9, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[341, 1000], 0.341]], PointBox[{-19, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[171, 500], 0.342]], PointBox[{20, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[343, 1000], 0.343]], PointBox[{21, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[43, 125], 0.344]], PointBox[{-20, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[69, 200], 0.345]], PointBox[{20, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[173, 500], 0.346]], PointBox[{-20, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[347, 1000], 0.347]], PointBox[{15, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[87, 250], 0.348]], PointBox[{9, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[349, 1000], 0.349]], PointBox[{20, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 20], 0.35]], PointBox[{20, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[351, 1000], 0.351]], PointBox[{18, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[44, 125], 0.352]], PointBox[{-16, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[353, 1000], 0.353]], PointBox[{-19, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[177, 500], 0.354]], PointBox[{-9, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[71, 200], 0.355]], PointBox[{-13, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[89, 250], 0.356]], PointBox[{-9, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[357, 1000], 0.357]], PointBox[{21, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[179, 500], 0.358]], PointBox[{-5, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[359, 1000], 0.359]], PointBox[{11, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 25], 0.36]], PointBox[{10, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[361, 1000], 0.361]], PointBox[{-16, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[181, 500], 0.362]], PointBox[{-16, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[363, 1000], 0.363]], PointBox[{-5, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[91, 250], 0.364]], PointBox[{10, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[73, 200], 0.365]], PointBox[{12, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[183, 500], 0.366]], PointBox[{21, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[367, 1000], 0.367]], PointBox[{21, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[46, 125], 0.368]], PointBox[{21, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[369, 1000], 0.369]], PointBox[{-13, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[37, 100], 0.37]], PointBox[{6, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[371, 1000], 0.371]], PointBox[{-3, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[93, 250], 0.372]], PointBox[{10, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[373, 1000], 0.373]], PointBox[{21, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[187, 500], 0.374]], PointBox[{-4, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 8], 0.375]], PointBox[{-19, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[47, 125], 0.376]], PointBox[{-21, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[377, 1000], 0.377]], PointBox[{8, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[189, 500], 0.378]], PointBox[{-22, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[379, 1000], 0.379]], PointBox[{-23, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[19, 50], 0.38]], PointBox[{-3, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[381, 1000], 0.381]], PointBox[{-9, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[191, 500], 0.382]], PointBox[{-17, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[383, 1000], 0.383]], PointBox[{-10, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[48, 125], 0.384]], PointBox[{16, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[77, 200], 0.385]], PointBox[{-2, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[193, 500], 0.386]], PointBox[{-19, 13}]}, 
+    {Hue[
+      NCache[
+       Rational[387, 1000], 0.387]], PointBox[{-23, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[97, 250], 0.388]], PointBox[{0, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[389, 1000], 0.389]], PointBox[{-18, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[39, 100], 0.39]], PointBox[{18, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[391, 1000], 0.391]], PointBox[{19, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[49, 125], 0.392]], PointBox[{-2, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[393, 1000], 0.393]], PointBox[{-20, 13}]}, 
+    {Hue[
+      NCache[
+       Rational[197, 500], 0.394]], PointBox[{-10, 22}]}, 
+    {Hue[
+      NCache[
+       Rational[79, 200], 0.395]], PointBox[{22, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[99, 250], 0.396]], PointBox[{-12, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[397, 1000], 0.397]], PointBox[{17, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[199, 500], 0.398]], PointBox[{-12, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[399, 1000], 0.399]], PointBox[{-23, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[2, 5], 0.4]], PointBox[{22, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[401, 1000], 0.401]], PointBox[{-12, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[201, 500], 0.402]], PointBox[{-24, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[403, 1000], 0.403]], PointBox[{21, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[101, 250], 0.404]], PointBox[{-13, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[81, 200], 0.405]], PointBox[{15, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[203, 500], 0.406]], PointBox[{20, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[407, 1000], 0.407]], PointBox[{19, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[51, 125], 0.408]], PointBox[{-9, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[409, 1000], 0.409]], PointBox[{10, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[41, 100], 0.41]], PointBox[{-10, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[411, 1000], 0.411]], PointBox[{-21, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[103, 250], 0.412]], PointBox[{-10, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[413, 1000], 0.413]], PointBox[{-20, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[207, 500], 0.414]], PointBox[{13, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[83, 200], 0.415]], PointBox[{-18, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[52, 125], 0.416]], PointBox[{22, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[417, 1000], 0.417]], PointBox[{13, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[209, 500], 0.418]], PointBox[{-24, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[419, 1000], 0.419]], PointBox[{-11, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[21, 50], 0.42]], PointBox[{21, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[421, 1000], 0.421]], PointBox[{-9, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[211, 500], 0.422]], PointBox[{22, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[423, 1000], 0.423]], PointBox[{19, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[53, 125], 0.424]], PointBox[{-8, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[17, 40], 0.425]], PointBox[{-3, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[213, 500], 0.426]], PointBox[{23, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[427, 1000], 0.427]], PointBox[{22, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[107, 250], 0.428]], PointBox[{17, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[429, 1000], 0.429]], PointBox[{-24, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[43, 100], 0.43]], PointBox[{-12, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[431, 1000], 0.431]], PointBox[{-9, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[54, 125], 0.432]], PointBox[{-13, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[433, 1000], 0.433]], PointBox[{21, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[217, 500], 0.434]], PointBox[{15, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[87, 200], 0.435]], PointBox[{-6, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[109, 250], 0.436]], PointBox[{22, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[437, 1000], 0.437]], PointBox[{-25, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[219, 500], 0.438]], PointBox[{21, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[439, 1000], 0.439]], PointBox[{17, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[11, 25], 0.44]], PointBox[{22, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[441, 1000], 0.441]], PointBox[{23, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[221, 500], 0.442]], PointBox[{0, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[443, 1000], 0.443]], PointBox[{21, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[111, 250], 0.444]], PointBox[{20, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[89, 200], 0.445]], PointBox[{21, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[223, 500], 0.446]], PointBox[{-25, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[447, 1000], 0.447]], PointBox[{-19, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[56, 125], 0.448]], PointBox[{-19, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[449, 1000], 0.449]], PointBox[{-10, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 20], 0.45]], PointBox[{22, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[451, 1000], 0.451]], PointBox[{-20, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[113, 250], 0.452]], PointBox[{-8, 22}]}, 
+    {Hue[
+      NCache[
+       Rational[453, 1000], 0.453]], PointBox[{16, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[227, 500], 0.454]], PointBox[{-10, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[91, 200], 0.455]], PointBox[{-7, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[57, 125], 0.456]], PointBox[{-5, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[457, 1000], 0.457]], PointBox[{-11, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[229, 500], 0.458]], PointBox[{19, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[459, 1000], 0.459]], PointBox[{23, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[23, 50], 0.46]], PointBox[{23, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[461, 1000], 0.461]], PointBox[{21, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[231, 500], 0.462]], PointBox[{14, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[463, 1000], 0.463]], PointBox[{-2, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[58, 125], 0.464]], PointBox[{17, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[93, 200], 0.465]], PointBox[{23, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[233, 500], 0.466]], PointBox[{-3, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[467, 1000], 0.467]], PointBox[{24, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[117, 250], 0.468]], PointBox[{24, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[469, 1000], 0.469]], PointBox[{14, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[47, 100], 0.47]], PointBox[{-10, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[471, 1000], 0.471]], PointBox[{22, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[59, 125], 0.472]], PointBox[{10, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[473, 1000], 0.473]], PointBox[{25, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[237, 500], 0.474]], PointBox[{-21, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[19, 40], 0.475]], PointBox[{23, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[119, 250], 0.476]], PointBox[{-10, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[477, 1000], 0.477]], PointBox[{22, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[239, 500], 0.478]], PointBox[{22, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[479, 1000], 0.479]], PointBox[{-7, 22}]}, 
+    {Hue[
+      NCache[
+       Rational[12, 25], 0.48]], PointBox[{-26, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[481, 1000], 0.481]], PointBox[{-19, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[241, 500], 0.482]], PointBox[{-11, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[483, 1000], 0.483]], PointBox[{-12, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[121, 250], 0.484]], PointBox[{-11, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[97, 200], 0.485]], PointBox[{-22, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[243, 500], 0.486]], PointBox[{-12, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[487, 1000], 0.487]], PointBox[{23, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[61, 125], 0.488]], PointBox[{22, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[489, 1000], 0.489]], PointBox[{1, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[49, 100], 0.49]], PointBox[{22, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[491, 1000], 0.491]], PointBox[{-20, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[123, 250], 0.492]], PointBox[{13, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[493, 1000], 0.493]], PointBox[{19, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[247, 500], 0.494]], PointBox[{23, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[99, 200], 0.495]], PointBox[{-12, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[62, 125], 0.496]], PointBox[{-10, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[497, 1000], 0.497]], PointBox[{-11, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[249, 500], 0.498]], PointBox[{20, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[499, 1000], 0.499]], PointBox[{-7, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[1, 2], 0.5]], PointBox[{-14, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[501, 1000], 0.501]], PointBox[{-18, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[251, 500], 0.502]], PointBox[{23, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[503, 1000], 0.503]], PointBox[{22, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[63, 125], 0.504]], PointBox[{-26, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[101, 200], 0.505]], PointBox[{-2, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[253, 500], 0.506]], PointBox[{-3, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[507, 1000], 0.507]], PointBox[{18, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[127, 250], 0.508]], PointBox[{-1, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[509, 1000], 0.509]], PointBox[{-10, 26}]}, 
+    {Hue[
+      NCache[
+       Rational[51, 100], 0.51]], PointBox[{-11, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[511, 1000], 0.511]], PointBox[{-13, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[64, 125], 0.512]], PointBox[{26, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[513, 1000], 0.513]], PointBox[{19, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[257, 500], 0.514]], PointBox[{24, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[103, 200], 0.515]], PointBox[{-1, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[129, 250], 0.516]], PointBox[{-8, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[517, 1000], 0.517]], PointBox[{-22, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[259, 500], 0.518]], PointBox[{22, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[519, 1000], 0.519]], PointBox[{-21, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[13, 25], 0.52]], PointBox[{-15, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[521, 1000], 0.521]], PointBox[{16, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[261, 500], 0.522]], PointBox[{-21, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[523, 1000], 0.523]], PointBox[{24, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[131, 250], 0.524]], PointBox[{24, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[21, 40], 0.525]], PointBox[{-19, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[263, 500], 0.526]], PointBox[{-9, 26}]}, 
+    {Hue[
+      NCache[
+       Rational[527, 1000], 0.527]], PointBox[{-14, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[66, 125], 0.528]], PointBox[{27, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[529, 1000], 0.529]], PointBox[{1, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[53, 100], 0.53]], PointBox[{20, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[531, 1000], 0.531]], PointBox[{10, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[133, 250], 0.532]], PointBox[{-27, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[533, 1000], 0.533]], PointBox[{-21, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[267, 500], 0.534]], PointBox[{28, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[107, 200], 0.535]], PointBox[{-23, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[67, 125], 0.536]], PointBox[{19, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[537, 1000], 0.537]], PointBox[{10, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[269, 500], 0.538]], PointBox[{-11, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[539, 1000], 0.539]], PointBox[{13, -18}]}, 
+    {Hue[
+      NCache[
+       Rational[27, 50], 0.54]], PointBox[{-11, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[541, 1000], 0.541]], PointBox[{29, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[271, 500], 0.542]], PointBox[{-22, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[543, 1000], 0.543]], PointBox[{19, 22}]}, 
+    {Hue[
+      NCache[
+       Rational[68, 125], 0.544]], PointBox[{25, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[109, 200], 0.545]], PointBox[{-22, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[273, 500], 0.546]], PointBox[{-23, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[547, 1000], 0.547]], PointBox[{-27, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[137, 250], 0.548]], PointBox[{24, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[549, 1000], 0.549]], PointBox[{-9, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[11, 20], 0.55]], PointBox[{23, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[551, 1000], 0.551]], PointBox[{24, -11}]}, 
+    {Hue[
+      NCache[
+       Rational[69, 125], 0.552]], PointBox[{-11, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[553, 1000], 0.553]], PointBox[{27, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[277, 500], 0.554]], PointBox[{-9, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[111, 200], 0.555]], PointBox[{-8, 26}]}, 
+    {Hue[
+      NCache[
+       Rational[139, 250], 0.556]], PointBox[{-25, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[557, 1000], 0.557]], PointBox[{-14, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[279, 500], 0.558]], PointBox[{23, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[559, 1000], 0.559]], PointBox[{-24, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[14, 25], 0.56]], PointBox[{-23, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[561, 1000], 0.561]], PointBox[{-21, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[281, 500], 0.562]], PointBox[{-10, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[563, 1000], 0.563]], PointBox[{-26, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[141, 250], 0.564]], PointBox[{-27, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[113, 200], 0.565]], PointBox[{24, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[283, 500], 0.566]], PointBox[{18, 22}]}, 
+    {Hue[
+      NCache[
+       Rational[567, 1000], 0.567]], PointBox[{-14, 26}]}, 
+    {Hue[
+      NCache[
+       Rational[71, 125], 0.568]], PointBox[{-10, 27}]}, 
+    {Hue[
+      NCache[
+       Rational[569, 1000], 0.569]], PointBox[{-23, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[57, 100], 0.57]], PointBox[{23, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[571, 1000], 0.571]], PointBox[{25, -10}]}, 
+    {Hue[
+      NCache[
+       Rational[143, 250], 0.572]], PointBox[{29, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[573, 1000], 0.573]], PointBox[{10, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[287, 500], 0.574]], PointBox[{24, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[23, 40], 0.575]], PointBox[{-10, -18}]}, 
+    {Hue[
+      NCache[
+       Rational[72, 125], 0.576]], PointBox[{19, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[577, 1000], 0.577]], PointBox[{-8, 27}]}, 
+    {Hue[
+      NCache[
+       Rational[289, 500], 0.578]], PointBox[{-10, -19}]}, 
+    {Hue[
+      NCache[
+       Rational[579, 1000], 0.579]], PointBox[{-28, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[29, 50], 0.58]], PointBox[{24, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[581, 1000], 0.581]], PointBox[{2, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[291, 500], 0.582]], PointBox[{-15, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[583, 1000], 0.583]], PointBox[{-16, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[73, 125], 0.584]], PointBox[{-10, 28}]}, 
+    {Hue[
+      NCache[
+       Rational[117, 200], 0.585]], PointBox[{24, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[293, 500], 0.586]], PointBox[{18, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[587, 1000], 0.587]], PointBox[{30, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[147, 250], 0.588]], PointBox[{-26, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[589, 1000], 0.589]], PointBox[{-17, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[59, 100], 0.59]], PointBox[{30, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[591, 1000], 0.591]], PointBox[{-14, 27}]}, 
+    {Hue[
+      NCache[
+       Rational[74, 125], 0.592]], PointBox[{25, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[593, 1000], 0.593]], PointBox[{-28, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[297, 500], 0.594]], PointBox[{26, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[119, 200], 0.595]], PointBox[{-25, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[149, 250], 0.596]], PointBox[{29, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[597, 1000], 0.597]], PointBox[{-9, -19}]}, 
+    {Hue[
+      NCache[
+       Rational[299, 500], 0.598]], PointBox[{3, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[599, 1000], 0.599]], PointBox[{29, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 5], 0.6]], PointBox[{0, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[601, 1000], 0.601]], PointBox[{-10, 29}]}, 
+    {Hue[
+      NCache[
+       Rational[301, 500], 0.602]], PointBox[{30, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[603, 1000], 0.603]], PointBox[{-22, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[151, 250], 0.604]], PointBox[{11, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[121, 200], 0.605]], PointBox[{4, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[303, 500], 0.606]], PointBox[{-14, 28}]}, 
+    {Hue[
+      NCache[
+       Rational[607, 1000], 0.607]], PointBox[{23, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[76, 125], 0.608]], PointBox[{31, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[609, 1000], 0.609]], PointBox[{-13, 28}]}, 
+    {Hue[
+      NCache[
+       Rational[61, 100], 0.61]], PointBox[{-14, 29}]}, 
+    {Hue[
+      NCache[
+       Rational[611, 1000], 0.611]], PointBox[{20, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[153, 250], 0.612]], PointBox[{23, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[613, 1000], 0.613]], PointBox[{32, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[307, 500], 0.614]], PointBox[{26, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[123, 200], 0.615]], PointBox[{24, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[77, 125], 0.616]], PointBox[{32, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[617, 1000], 0.617]], PointBox[{-29, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[309, 500], 0.618]], PointBox[{14, -18}]}, 
+    {Hue[
+      NCache[
+       Rational[619, 1000], 0.619]], PointBox[{-30, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[31, 50], 0.62]], PointBox[{14, -19}]}, 
+    {Hue[
+      NCache[
+       Rational[621, 1000], 0.621]], PointBox[{24, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[311, 500], 0.622]], PointBox[{-8, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[623, 1000], 0.623]], PointBox[{-12, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[78, 125], 0.624]], PointBox[{25, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[5, 8], 0.625]], PointBox[{-10, 30}]}, 
+    {Hue[
+      NCache[
+       Rational[313, 500], 0.626]], PointBox[{-14, 30}]}, 
+    {Hue[
+      NCache[
+       Rational[627, 1000], 0.627]], PointBox[{-12, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[157, 250], 0.628]], PointBox[{-31, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[629, 1000], 0.629]], PointBox[{31, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[63, 100], 0.63]], PointBox[{-10, 31}]}, 
+    {Hue[
+      NCache[
+       Rational[631, 1000], 0.631]], PointBox[{-20, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[79, 125], 0.632]], PointBox[{-8, 28}]}, 
+    {Hue[
+      NCache[
+       Rational[633, 1000], 0.633]], PointBox[{-4, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[317, 500], 0.634]], PointBox[{18, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[127, 200], 0.635]], PointBox[{33, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[159, 250], 0.636]], PointBox[{25, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[637, 1000], 0.637]], PointBox[{-13, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[319, 500], 0.638]], PointBox[{-22, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[639, 1000], 0.639]], PointBox[{-11, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[16, 25], 0.64]], PointBox[{-10, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[641, 1000], 0.641]], PointBox[{24, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[321, 500], 0.642]], PointBox[{-4, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[643, 1000], 0.643]], PointBox[{-28, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[161, 250], 0.644]], PointBox[{-11, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[129, 200], 0.645]], PointBox[{-31, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[323, 500], 0.646]], PointBox[{-24, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[647, 1000], 0.647]], PointBox[{27, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[81, 125], 0.648]], PointBox[{24, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[649, 1000], 0.649]], PointBox[{14, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[13, 20], 0.65]], PointBox[{-9, 31}]}, 
+    {Hue[
+      NCache[
+       Rational[651, 1000], 0.651]], PointBox[{-32, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[163, 250], 0.652]], PointBox[{-21, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[653, 1000], 0.653]], PointBox[{33, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[327, 500], 0.654]], PointBox[{23, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[131, 200], 0.655]], PointBox[{24, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[82, 125], 0.656]], PointBox[{-9, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[657, 1000], 0.657]], PointBox[{-18, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[329, 500], 0.658]], PointBox[{-12, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[659, 1000], 0.659]], PointBox[{-32, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[33, 50], 0.66]], PointBox[{21, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[661, 1000], 0.661]], PointBox[{-24, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[331, 500], 0.662]], PointBox[{11, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[663, 1000], 0.663]], PointBox[{-24, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[83, 125], 0.664]], PointBox[{25, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[133, 200], 0.665]], PointBox[{24, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[333, 500], 0.666]], PointBox[{17, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[667, 1000], 0.667]], PointBox[{-16, 26}]}, 
+    {Hue[
+      NCache[
+       Rational[167, 250], 0.668]], PointBox[{23, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[669, 1000], 0.669]], PointBox[{-7, -18}]}, 
+    {Hue[
+      NCache[
+       Rational[67, 100], 0.67]], PointBox[{34, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[671, 1000], 0.671]], PointBox[{17, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[84, 125], 0.672]], PointBox[{35, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[673, 1000], 0.673]], PointBox[{-14, 31}]}, 
+    {Hue[
+      NCache[
+       Rational[337, 500], 0.674]], PointBox[{22, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[27, 40], 0.675]], PointBox[{36, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[169, 250], 0.676]], PointBox[{37, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[677, 1000], 0.677]], PointBox[{-25, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[339, 500], 0.678]], PointBox[{-26, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[679, 1000], 0.679]], PointBox[{-16, 27}]}, 
+    {Hue[
+      NCache[
+       Rational[17, 25], 0.68]], PointBox[{-1, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[681, 1000], 0.681]], PointBox[{16, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[341, 500], 0.682]], PointBox[{-7, -19}]}, 
+    {Hue[
+      NCache[
+       Rational[683, 1000], 0.683]], PointBox[{34, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[171, 250], 0.684]], PointBox[{35, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[137, 200], 0.685]], PointBox[{24, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[343, 500], 0.686]], PointBox[{33, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[687, 1000], 0.687]], PointBox[{-10, 33}]}, 
+    {Hue[
+      NCache[
+       Rational[86, 125], 0.688]], PointBox[{-10, 34}]}, 
+    {Hue[
+      NCache[
+       Rational[689, 1000], 0.689]], PointBox[{-15, 31}]}, 
+    {Hue[
+      NCache[
+       Rational[69, 100], 0.69]], PointBox[{24, 13}]}, 
+    {Hue[
+      NCache[
+       Rational[691, 1000], 0.691]], PointBox[{-16, 31}]}, 
+    {Hue[
+      NCache[
+       Rational[173, 250], 0.692]], PointBox[{23, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[693, 1000], 0.693]], PointBox[{20, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[347, 500], 0.694]], PointBox[{-10, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[139, 200], 0.695]], PointBox[{-26, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[87, 125], 0.696]], PointBox[{-13, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[697, 1000], 0.697]], PointBox[{14, -21}]}, 
+    {Hue[
+      NCache[
+       Rational[349, 500], 0.698]], PointBox[{-33, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[699, 1000], 0.699]], PointBox[{-7, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 10], 0.7]], PointBox[{-9, 34}]}, 
+    {Hue[
+      NCache[
+       Rational[701, 1000], 0.701]], PointBox[{25, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[351, 500], 0.702]], PointBox[{24, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[703, 1000], 0.703]], PointBox[{37, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[88, 125], 0.704]], PointBox[{-11, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[141, 200], 0.705]], PointBox[{37, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[353, 500], 0.706]], PointBox[{-11, 34}]}, 
+    {Hue[
+      NCache[
+       Rational[707, 1000], 0.707]], PointBox[{-10, 35}]}, 
+    {Hue[
+      NCache[
+       Rational[177, 250], 0.708]], PointBox[{38, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[709, 1000], 0.709]], PointBox[{-10, -21}]}, 
+    {Hue[
+      NCache[
+       Rational[71, 100], 0.71]], PointBox[{25, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[711, 1000], 0.711]], PointBox[{31, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[89, 125], 0.712]], PointBox[{-13, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[713, 1000], 0.713]], PointBox[{26, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[357, 500], 0.714]], PointBox[{-16, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[143, 200], 0.715]], PointBox[{27, -12}]}, 
+    {Hue[
+      NCache[
+       Rational[179, 250], 0.716]], PointBox[{12, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[717, 1000], 0.717]], PointBox[{25, 12}]}, 
+    {Hue[
+      NCache[
+       Rational[359, 500], 0.718]], PointBox[{-32, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[719, 1000], 0.719]], PointBox[{16, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[18, 25], 0.72]], PointBox[{-26, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[721, 1000], 0.721]], PointBox[{-12, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[361, 500], 0.722]], PointBox[{-9, -21}]}, 
+    {Hue[
+      NCache[
+       Rational[723, 1000], 0.723]], PointBox[{22, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[181, 250], 0.724]], PointBox[{-17, 27}]}, 
+    {Hue[
+      NCache[
+       Rational[29, 40], 0.725]], PointBox[{-4, 22}]}, 
+    {Hue[
+      NCache[
+       Rational[363, 500], 0.726]], PointBox[{26, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[727, 1000], 0.727]], PointBox[{-27, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[91, 125], 0.728]], PointBox[{23, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[729, 1000], 0.729]], PointBox[{-13, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[73, 100], 0.73]], PointBox[{16, 26}]}, 
+    {Hue[
+      NCache[
+       Rational[731, 1000], 0.731]], PointBox[{27, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[183, 250], 0.732]], PointBox[{1, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[733, 1000], 0.733]], PointBox[{37, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[367, 500], 0.734]], PointBox[{-8, 34}]}, 
+    {Hue[
+      NCache[
+       Rational[147, 200], 0.735]], PointBox[{-17, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[92, 125], 0.736]], PointBox[{-10, 36}]}, 
+    {Hue[
+      NCache[
+       Rational[737, 1000], 0.737]], PointBox[{24, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[369, 500], 0.738]], PointBox[{-17, 31}]}, 
+    {Hue[
+      NCache[
+       Rational[739, 1000], 0.739]], PointBox[{15, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[37, 50], 0.74]], PointBox[{28, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[741, 1000], 0.741]], PointBox[{-7, 28}]}, 
+    {Hue[
+      NCache[
+       Rational[371, 500], 0.742]], PointBox[{-8, 35}]}, 
+    {Hue[
+      NCache[
+       Rational[743, 1000], 0.743]], PointBox[{-33, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[93, 125], 0.744]], PointBox[{38, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[149, 200], 0.745]], PointBox[{38, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[373, 500], 0.746]], PointBox[{-19, 25}]}, 
+    {Hue[
+      NCache[
+       Rational[747, 1000], 0.747]], PointBox[{-13, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[187, 250], 0.748]], PointBox[{-7, 35}]}, 
+    {Hue[
+      NCache[
+       Rational[749, 1000], 0.749]], PointBox[{-14, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[3, 4], 0.75]], PointBox[{39, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[751, 1000], 0.751]], PointBox[{37, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[94, 125], 0.752]], PointBox[{40, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[753, 1000], 0.753]], PointBox[{-33, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[377, 500], 0.754]], PointBox[{-33, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[151, 200], 0.755]], PointBox[{-9, -22}]}, 
+    {Hue[
+      NCache[
+       Rational[189, 250], 0.756]], PointBox[{15, -21}]}, 
+    {Hue[
+      NCache[
+       Rational[757, 1000], 0.757]], PointBox[{-27, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[379, 500], 0.758]], PointBox[{17, 26}]}, 
+    {Hue[
+      NCache[
+       Rational[759, 1000], 0.759]], PointBox[{16, 27}]}, 
+    {Hue[
+      NCache[
+       Rational[19, 25], 0.76]], PointBox[{-10, 37}]}, 
+    {Hue[
+      NCache[
+       Rational[761, 1000], 0.761]], PointBox[{-32, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[381, 500], 0.762]], PointBox[{-28, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[763, 1000], 0.763]], PointBox[{15, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[191, 250], 0.764]], PointBox[{-10, -22}]}, 
+    {Hue[
+      NCache[
+       Rational[153, 200], 0.765]], PointBox[{-34, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[383, 500], 0.766]], PointBox[{25, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[767, 1000], 0.767]], PointBox[{35, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[96, 125], 0.768]], PointBox[{-34, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[769, 1000], 0.769]], PointBox[{-35, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[77, 100], 0.77]], PointBox[{36, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[771, 1000], 0.771]], PointBox[{25, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[193, 250], 0.772]], PointBox[{27, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[773, 1000], 0.773]], PointBox[{38, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[387, 500], 0.774]], PointBox[{-29, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[31, 40], 0.775]], PointBox[{16, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[97, 125], 0.776]], PointBox[{17, 27}]}, 
+    {Hue[
+      NCache[
+       Rational[777, 1000], 0.777]], PointBox[{18, 27}]}, 
+    {Hue[
+      NCache[
+       Rational[389, 500], 0.778]], PointBox[{-8, 36}]}, 
+    {Hue[
+      NCache[
+       Rational[779, 1000], 0.779]], PointBox[{-18, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[39, 50], 0.78]], PointBox[{-8, 37}]}, 
+    {Hue[
+      NCache[
+       Rational[781, 1000], 0.781]], PointBox[{18, 28}]}, 
+    {Hue[
+      NCache[
+       Rational[391, 500], 0.782]], PointBox[{-6, -18}]}, 
+    {Hue[
+      NCache[
+       Rational[783, 1000], 0.783]], PointBox[{24, -18}]}, 
+    {Hue[
+      NCache[
+       Rational[98, 125], 0.784]], PointBox[{41, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[157, 200], 0.785]], PointBox[{-6, 35}]}, 
+    {Hue[
+      NCache[
+       Rational[393, 500], 0.786]], PointBox[{-32, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[787, 1000], 0.787]], PointBox[{39, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[197, 250], 0.788]], PointBox[{38, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[789, 1000], 0.789]], PointBox[{34, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[79, 100], 0.79]], PointBox[{25, 14}]}, 
+    {Hue[
+      NCache[
+       Rational[791, 1000], 0.791]], PointBox[{41, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[99, 125], 0.792]], PointBox[{-18, 31}]}, 
+    {Hue[
+      NCache[
+       Rational[793, 1000], 0.793]], PointBox[{-10, 38}]}, 
+    {Hue[
+      NCache[
+       Rational[397, 500], 0.794]], PointBox[{-29, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[159, 200], 0.795]], PointBox[{-11, -22}]}, 
+    {Hue[
+      NCache[
+       Rational[199, 250], 0.796]], PointBox[{19, 28}]}, 
+    {Hue[
+      NCache[
+       Rational[797, 1000], 0.797]], PointBox[{-11, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[399, 500], 0.798]], PointBox[{28, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[799, 1000], 0.799]], PointBox[{-14, -9}]}, 
+    {Hue[
+      NCache[
+       Rational[4, 5], 0.8]], PointBox[{-33, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[801, 1000], 0.801]], PointBox[{32, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[401, 500], 0.802]], PointBox[{18, 29}]}, 
+    {Hue[
+      NCache[
+       Rational[803, 1000], 0.803]], PointBox[{37, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[201, 250], 0.804]], PointBox[{-6, 34}]}, 
+    {Hue[
+      NCache[
+       Rational[161, 200], 0.805]], PointBox[{-32, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[403, 500], 0.806]], PointBox[{35, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[807, 1000], 0.807]], PointBox[{27, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[101, 125], 0.808]], PointBox[{42, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[809, 1000], 0.809]], PointBox[{-10, 39}]}, 
+    {Hue[
+      NCache[
+       Rational[81, 100], 0.81]], PointBox[{-35, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[811, 1000], 0.811]], PointBox[{-14, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[203, 250], 0.812]], PointBox[{-28, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[813, 1000], 0.813]], PointBox[{-10, 40}]}, 
+    {Hue[
+      NCache[
+       Rational[407, 500], 0.814]], PointBox[{38, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[163, 200], 0.815]], PointBox[{38, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[102, 125], 0.816]], PointBox[{23, -18}]}, 
+    {Hue[
+      NCache[
+       Rational[817, 1000], 0.817]], PointBox[{39, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[409, 500], 0.818]], PointBox[{42, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[819, 1000], 0.819]], PointBox[{-12, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[41, 50], 0.82]], PointBox[{-16, 33}]}, 
+    {Hue[
+      NCache[
+       Rational[821, 1000], 0.821]], PointBox[{-18, 33}]}, 
+    {Hue[
+      NCache[
+       Rational[411, 500], 0.822]], PointBox[{40, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[823, 1000], 0.823]], PointBox[{24, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[103, 125], 0.824]], PointBox[{16, -21}]}, 
+    {Hue[
+      NCache[
+       Rational[33, 40], 0.825]], PointBox[{43, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[413, 500], 0.826]], PointBox[{26, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[827, 1000], 0.827]], PointBox[{26, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[207, 250], 0.828]], PointBox[{25, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[829, 1000], 0.829]], PointBox[{27, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[83, 100], 0.83]], PointBox[{43, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[831, 1000], 0.831]], PointBox[{29, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[104, 125], 0.832]], PointBox[{-16, 34}]}, 
+    {Hue[
+      NCache[
+       Rational[833, 1000], 0.833]], PointBox[{42, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[417, 500], 0.834]], PointBox[{44, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[167, 200], 0.835]], PointBox[{-19, 33}]}, 
+    {Hue[
+      NCache[
+       Rational[209, 250], 0.836]], PointBox[{23, -19}]}, 
+    {Hue[
+      NCache[
+       Rational[837, 1000], 0.837]], PointBox[{44, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[419, 500], 0.838]], PointBox[{-25, 17}]}, 
+    {Hue[
+      NCache[
+       Rational[839, 1000], 0.839]], PointBox[{26, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[21, 25], 0.84]], PointBox[{15, 27}]}, 
+    {Hue[
+      NCache[
+       Rational[841, 1000], 0.841]], PointBox[{45, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[421, 500], 0.842]], PointBox[{-30, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[843, 1000], 0.843]], PointBox[{-28, 22}]}, 
+    {Hue[
+      NCache[
+       Rational[211, 250], 0.844]], PointBox[{41, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[169, 200], 0.845]], PointBox[{-30, 19}]}, 
+    {Hue[
+      NCache[
+       Rational[423, 500], 0.846]], PointBox[{-19, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[847, 1000], 0.847]], PointBox[{-10, -23}]}, 
+    {Hue[
+      NCache[
+       Rational[106, 125], 0.848]], PointBox[{37, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[849, 1000], 0.849]], PointBox[{16, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[17, 20], 0.85]], PointBox[{46, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[851, 1000], 0.851]], PointBox[{-7, 37}]}, 
+    {Hue[
+      NCache[
+       Rational[213, 250], 0.852]], PointBox[{-16, 35}]}, 
+    {Hue[
+      NCache[
+       Rational[853, 1000], 0.853]], PointBox[{-4, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[427, 500], 0.854]], PointBox[{42, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[171, 200], 0.855]], PointBox[{46, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[107, 125], 0.856]], PointBox[{18, 30}]}, 
+    {Hue[
+      NCache[
+       Rational[857, 1000], 0.857]], PointBox[{-15, -13}]}, 
+    {Hue[
+      NCache[
+       Rational[429, 500], 0.858]], PointBox[{14, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[859, 1000], 0.859]], PointBox[{47, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[43, 50], 0.86]], PointBox[{-10, 41}]}, 
+    {Hue[
+      NCache[
+       Rational[861, 1000], 0.861]], PointBox[{48, -2}]}, 
+    {Hue[
+      NCache[
+       Rational[431, 500], 0.862]], PointBox[{19, 30}]}, 
+    {Hue[
+      NCache[
+       Rational[863, 1000], 0.863]], PointBox[{48, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[108, 125], 0.864]], PointBox[{45, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[173, 200], 0.865]], PointBox[{-14, -21}]}, 
+    {Hue[
+      NCache[
+       Rational[433, 500], 0.866]], PointBox[{-11, 38}]}, 
+    {Hue[
+      NCache[
+       Rational[867, 1000], 0.867]], PointBox[{27, 15}]}, 
+    {Hue[
+      NCache[
+       Rational[217, 250], 0.868]], PointBox[{17, 30}]}, 
+    {Hue[
+      NCache[
+       Rational[869, 1000], 0.869]], PointBox[{48, -1}]}, 
+    {Hue[
+      NCache[
+       Rational[87, 100], 0.87]], PointBox[{-30, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[871, 1000], 0.871]], PointBox[{-11, 40}]}, 
+    {Hue[
+      NCache[
+       Rational[109, 125], 0.872]], PointBox[{18, 31}]}, 
+    {Hue[
+      NCache[
+       Rational[873, 1000], 0.873]], PointBox[{13, -19}]}, 
+    {Hue[
+      NCache[
+       Rational[437, 500], 0.874]], PointBox[{42, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[7, 8], 0.875]], PointBox[{31, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[219, 250], 0.876]], PointBox[{42, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[877, 1000], 0.877]], PointBox[{17, -21}]}, 
+    {Hue[
+      NCache[
+       Rational[439, 500], 0.878]], PointBox[{-10, -24}]}, 
+    {Hue[
+      NCache[
+       Rational[879, 1000], 0.879]], PointBox[{-14, -8}]}, 
+    {Hue[
+      NCache[
+       Rational[22, 25], 0.88]], PointBox[{-30, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[881, 1000], 0.881]], PointBox[{13, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[441, 500], 0.882]], PointBox[{-5, -18}]}, 
+    {Hue[
+      NCache[
+       Rational[883, 1000], 0.883]], PointBox[{-26, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[221, 250], 0.884]], PointBox[{37, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[177, 200], 0.885]], PointBox[{15, 28}]}, 
+    {Hue[
+      NCache[
+       Rational[443, 500], 0.886]], PointBox[{2, 20}]}, 
+    {Hue[
+      NCache[
+       Rational[887, 1000], 0.887]], PointBox[{-18, 30}]}, 
+    {Hue[
+      NCache[
+       Rational[111, 125], 0.888]], PointBox[{-4, -18}]}, 
+    {Hue[
+      NCache[
+       Rational[889, 1000], 0.889]], PointBox[{-10, 42}]}, 
+    {Hue[
+      NCache[
+       Rational[89, 100], 0.89]], PointBox[{18, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[891, 1000], 0.891]], PointBox[{15, 29}]}, 
+    {Hue[
+      NCache[
+       Rational[223, 250], 0.892]], PointBox[{-28, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[893, 1000], 0.893]], PointBox[{-8, -22}]}, 
+    {Hue[
+      NCache[
+       Rational[447, 500], 0.894]], PointBox[{-15, -21}]}, 
+    {Hue[
+      NCache[
+       Rational[179, 200], 0.895]], PointBox[{4, -16}]}, 
+    {Hue[
+      NCache[
+       Rational[112, 125], 0.896]], PointBox[{20, 30}]}, 
+    {Hue[
+      NCache[
+       Rational[897, 1000], 0.897]], PointBox[{-31, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[449, 500], 0.898]], PointBox[{17, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[899, 1000], 0.899]], PointBox[{-10, -25}]}, 
+    {Hue[
+      NCache[
+       Rational[9, 10], 0.9]], PointBox[{23, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[901, 1000], 0.901]], PointBox[{-32, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[451, 500], 0.902]], PointBox[{48, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[903, 1000], 0.903]], PointBox[{21, 30}]}, 
+    {Hue[
+      NCache[
+       Rational[113, 125], 0.904]], PointBox[{-20, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[181, 200], 0.905]], PointBox[{22, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[453, 500], 0.906]], PointBox[{25, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[907, 1000], 0.907]], PointBox[{-34, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[227, 250], 0.908]], PointBox[{37, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[909, 1000], 0.909]], PointBox[{-36, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[91, 100], 0.91]], PointBox[{-19, 26}]}, 
+    {Hue[
+      NCache[
+       Rational[911, 1000], 0.911]], PointBox[{-11, 42}]}, 
+    {Hue[
+      NCache[
+       Rational[114, 125], 0.912]], PointBox[{1, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[913, 1000], 0.913]], PointBox[{43, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[457, 500], 0.914]], PointBox[{-33, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[183, 200], 0.915]], PointBox[{26, -18}]}, 
+    {Hue[
+      NCache[
+       Rational[229, 250], 0.916]], PointBox[{48, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[917, 1000], 0.917]], PointBox[{36, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[459, 500], 0.918]], PointBox[{-15, -14}]}, 
+    {Hue[
+      NCache[
+       Rational[919, 1000], 0.919]], PointBox[{18, -21}]}, 
+    {Hue[
+      NCache[
+       Rational[23, 25], 0.92]], PointBox[{49, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[921, 1000], 0.921]], PointBox[{12, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[461, 500], 0.922]], PointBox[{18, -22}]}, 
+    {Hue[
+      NCache[
+       Rational[923, 1000], 0.923]], PointBox[{-5, 35}]}, 
+    {Hue[
+      NCache[
+       Rational[231, 250], 0.924]], PointBox[{4, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[37, 40], 0.925]], PointBox[{50, -3}]}, 
+    {Hue[
+      NCache[
+       Rational[463, 500], 0.926]], PointBox[{-30, 21}]}, 
+    {Hue[
+      NCache[
+       Rational[927, 1000], 0.927]], PointBox[{49, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[116, 125], 0.928]], PointBox[{22, 30}]}, 
+    {Hue[
+      NCache[
+       Rational[929, 1000], 0.929]], PointBox[{16, -22}]}, 
+    {Hue[
+      NCache[
+       Rational[93, 100], 0.93]], PointBox[{38, 6}]}, 
+    {Hue[
+      NCache[
+       Rational[931, 1000], 0.931]], PointBox[{16, -23}]}, 
+    {Hue[
+      NCache[
+       Rational[233, 250], 0.932]], PointBox[{43, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[933, 1000], 0.933]], PointBox[{-15, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[467, 500], 0.934]], PointBox[{37, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[187, 200], 0.935]], PointBox[{50, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[117, 125], 0.936]], PointBox[{50, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[937, 1000], 0.937]], PointBox[{-10, -26}]}, 
+    {Hue[
+      NCache[
+       Rational[469, 500], 0.938]], PointBox[{-36, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[939, 1000], 0.939]], PointBox[{-12, 38}]}, 
+    {Hue[
+      NCache[
+       Rational[47, 50], 0.94]], PointBox[{-35, 5}]}, 
+    {Hue[
+      NCache[
+       Rational[941, 1000], 0.941]], PointBox[{-34, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[471, 500], 0.942]], PointBox[{16, -24}]}, 
+    {Hue[
+      NCache[
+       Rational[943, 1000], 0.943]], PointBox[{19, -22}]}, 
+    {Hue[
+      NCache[
+       Rational[118, 125], 0.944]], PointBox[{-37, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[189, 200], 0.945]], PointBox[{-15, -15}]}, 
+    {Hue[
+      NCache[
+       Rational[473, 500], 0.946]], PointBox[{51, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[947, 1000], 0.947]], PointBox[{-10, -27}]}, 
+    {Hue[
+      NCache[
+       Rational[237, 250], 0.948]], PointBox[{19, -23}]}, 
+    {Hue[
+      NCache[
+       Rational[949, 1000], 0.949]], PointBox[{-35, 10}]}, 
+    {Hue[
+      NCache[
+       Rational[19, 20], 0.95]], PointBox[{-9, -27}]}, 
+    {Hue[
+      NCache[
+       Rational[951, 1000], 0.951]], PointBox[{-18, 29}]}, 
+    {Hue[
+      NCache[
+       Rational[119, 125], 0.952]], PointBox[{49, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[953, 1000], 0.953]], PointBox[{-35, 11}]}, 
+    {Hue[
+      NCache[
+       Rational[477, 500], 0.954]], PointBox[{-8, -27}]}, 
+    {Hue[
+      NCache[
+       Rational[191, 200], 0.955]], PointBox[{-38, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[239, 250], 0.956]], PointBox[{45, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[957, 1000], 0.957]], PointBox[{20, 28}]}, 
+    {Hue[
+      NCache[
+       Rational[479, 500], 0.958]], PointBox[{17, 33}]}, 
+    {Hue[
+      NCache[
+       Rational[959, 1000], 0.959]], PointBox[{-35, 4}]}, 
+    {Hue[
+      NCache[
+       Rational[24, 25], 0.96]], PointBox[{50, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[961, 1000], 0.961]], PointBox[{-39, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[481, 500], 0.962]], PointBox[{24, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[963, 1000], 0.963]], PointBox[{19, -24}]}, 
+    {Hue[
+      NCache[
+       Rational[241, 250], 0.964]], PointBox[{16, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[193, 200], 0.965]], PointBox[{-16, 36}]}, 
+    {Hue[
+      NCache[
+       Rational[483, 500], 0.966]], PointBox[{-21, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[967, 1000], 0.967]], PointBox[{0, -17}]}, 
+    {Hue[
+      NCache[
+       Rational[121, 125], 0.968]], PointBox[{-33, 18}]}, 
+    {Hue[
+      NCache[
+       Rational[969, 1000], 0.969]], PointBox[{-27, 3}]}, 
+    {Hue[
+      NCache[
+       Rational[97, 100], 0.97]], PointBox[{-16, -20}]}, 
+    {Hue[
+      NCache[
+       Rational[971, 1000], 0.971]], PointBox[{49, 2}]}, 
+    {Hue[
+      NCache[
+       Rational[243, 250], 0.972]], PointBox[{-40, 8}]}, 
+    {Hue[
+      NCache[
+       Rational[973, 1000], 0.973]], PointBox[{27, 16}]}, 
+    {Hue[
+      NCache[
+       Rational[487, 500], 0.974]], PointBox[{-6, 37}]}, 
+    {Hue[
+      NCache[
+       Rational[39, 40], 0.975]], PointBox[{14, 29}]}, 
+    {Hue[
+      NCache[
+       Rational[122, 125], 0.976]], PointBox[{51, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[977, 1000], 0.977]], PointBox[{-40, 9}]}, 
+    {Hue[
+      NCache[
+       Rational[489, 500], 0.978]], PointBox[{-40, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[979, 1000], 0.979]], PointBox[{51, -5}]}, 
+    {Hue[
+      NCache[
+       Rational[49, 50], 0.98]], PointBox[{33, -4}]}, 
+    {Hue[
+      NCache[
+       Rational[981, 1000], 0.981]], PointBox[{-10, 43}]}, 
+    {Hue[
+      NCache[
+       Rational[491, 500], 0.982]], PointBox[{-41, 7}]}, 
+    {Hue[
+      NCache[
+       Rational[983, 1000], 0.983]], PointBox[{21, 28}]}, 
+    {Hue[
+      NCache[
+       Rational[123, 125], 0.984]], PointBox[{-10, 44}]}, 
+    {Hue[
+      NCache[
+       Rational[197, 200], 0.985]], PointBox[{19, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[493, 500], 0.986]], PointBox[{25, 13}]}, 
+    {Hue[
+      NCache[
+       Rational[987, 1000], 0.987]], PointBox[{52, 0}]}, 
+    {Hue[
+      NCache[
+       Rational[247, 250], 0.988]], PointBox[{-11, -27}]}, 
+    {Hue[
+      NCache[
+       Rational[989, 1000], 0.989]], PointBox[{-11, 44}]}, 
+    {Hue[
+      NCache[
+       Rational[99, 100], 0.99]], PointBox[{20, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[991, 1000], 0.991]], PointBox[{21, 32}]}, 
+    {Hue[
+      NCache[
+       Rational[124, 125], 0.992]], PointBox[{28, 23}]}, 
+    {Hue[
+      NCache[
+       Rational[993, 1000], 0.993]], PointBox[{52, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[497, 500], 0.994]], PointBox[{51, -6}]}, 
+    {Hue[
+      NCache[
+       Rational[199, 200], 0.995]], PointBox[{-8, -28}]}, 
+    {Hue[
+      NCache[
+       Rational[249, 250], 0.996]], PointBox[{-15, 1}]}, 
+    {Hue[
+      NCache[
+       Rational[997, 1000], 0.997]], PointBox[{21, 33}]}, 
+    {Hue[
+      NCache[
+       Rational[499, 500], 0.998]], PointBox[{28, 24}]}, 
+    {Hue[
+      NCache[
+       Rational[999, 1000], 0.999]], PointBox[{-30, 5}]}, 
+    {Hue[1], PointBox[{-33, 19}]}},
+   AspectRatio->Automatic,
+   Axes->None,
+   Background->GrayLevel[0],
+   PlotRange->All], TraditionalForm]], "Output",
+ CellChangeTimes->{
+  3.734180298244418*^9, 3.734180454712975*^9, {3.734181080989622*^9, 
+   3.7341811046886377`*^9}, {3.73418118650667*^9, 3.734181196326418*^9}, 
+   3.734181589186953*^9},
+ CellLabel->"Out[34]=",ImageCache->GraphicsData["CompressedBitmap", "\<\
+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
+Yy40C/U9Bdu2/2ahr2w+17dvsxDvYnNooZdD11p3sZxCtdpsWoWrlIhWh1A0
+xewvSviUFZ9PCZrPZP1LESllTbehXWOee4daDTFtnns7ZNSNul1OeBVQ22K6
+XQ4NN7+wgHmjiKT1Tfukut3z/5CrZpXLcoreFi4RpM+I0HtBm+m3EvVZCDHe
+VVbyznd79/H3WHuKEfN/vL6ANxlZ8f4Ct7DNdIosIZymzU5TlIdfRZ7gPFL2
+U1Lwea01Sw0P8HyybCqUn9y0kkRJy3aPSvOXtPuJ5T0K2aDWZnMGhOxFHk3f
+0MONuBpVdReh6/MrCSgKtMMGYtSL25JUxaxttT1ufoG1LaqcHrVJalt9fwYI
+R3XN/BLUW4fh1h+Eb1HhC/VCZszz7uVFBmPZd6PUII5M/DDJsk6QW/uxeMzW
+H8StNiFCx5ADVLeG36L/RNZfE3lc5D6RP3PfHFbgvxMML3LXhpCF4M91bIch
+ukVFgmmzxRFp4rK0+KQxcjReQXSyxDqaz4Jyejrqor92eYN6kJuZit3lwRq8
+j33L61u+9+Tp/WLfNnOxHzIV5Teyfq1vn3mdr0y9Qcqfimwgv7dg6Worlv8b
+h73Ujb67cG5wLd3u1J5Rrip+dtGbsA1sIkt5roVip3lztBSb7bU+7HUCUTfN
+9fTan2pHkshr9/JDxWsHO0HWc9ootZ6to5FgnMimIi+gHjaHp58jAXKuXEJK
+F7Z9LKY5m29fqsHdZO/iVvX6xqST/qHTtjX6h57ZR9FvOLHBRv8bbCQ8ejM8
+pMj3i/MwEsjop4hcRxOpXCOyPvS2Fv6brCkGDi85//NkpHObtwRZV2QR4Ndp
+TpN6qC7Jk/1IkRt5HzBTaWa3P74pIW0mijzqsqTkUdFjq7no4PKdrLeJLleh
+V16F7mkNa6uBHON8C1Ve8H+V1ZtMdnJdB8cVF33vELReNq1XoxeAQes9M+ei
+P2i3Bq3fFmn9+Ujr3aZ1LN8Wmcxnx9q1UK7fDErPpFJKnaWrruO7Ljg+VfZ6
+aTNqlEGPesZX9vnWa2eMi8umem1AuwkdfEz1RWWIl3juNxH5ichfeAPdqLpN
+nUP1Q05z2q73iusOxJCf3LS0q6S5tJMgkZNt/QlFtcLqkRUuQ6utAr+WWUF0
+ehO3ra2v+3myA+rNUmO3s3qz1KLkNJilr0TA3YRCN7opsu1ZtsIjH7p2SHdG
+ihvEMV3dDVIwoLi7EnVcJIb8nr4QxKDzcn6RCBzXi2anh8ASupNriVayJLOV
+0qQUUsbaebL5Nl998AJfG7lDzqJMIqTpbqmmZEnMn1W3f9e7o71vP3Q+Y5Z2
+rLnCa138ZG47OX0rcgXNiW4JwigLJeJBOxDzy4Gs3k2pmIlH8q5/wruWiOrf
+yQKXny2Mm65+sEjC3WbymPveT3fTeekvmJp+gXVux/7fi3KFjL1Tx9BOBEB6
+iQyjeVdhpK7I+oq6zS8rsoLI2k0pP8VVJhbS4M69+EYPssqawuMWu6XzxLYH
+KTwOTYN4McQxEqLTDeG6dRLwYwRZfxE3iwxwmpwC5eQVEr+XKLvXLWLyn9W8
+27DTu6VEWa32Ug3lYFt//rcSMZ72bvGjBgOUT6EEayeTNPdHvhNyARmtznON
+1HkWgt9qFy+Y/J7wUJHa3kvf+Mr9H/r2Z2Z796Lg4IzvfOWEGb79x9/lAQyc
+arz3tf4PEBwZRK732ktAewZgG45xxfYoh2tVttdWlsuuLZdbR8tuubVkHYOI
+RGF/dp4owRM9KfKGyD9EXvF7jZprobLsr44gArlTair3S41FSrn4bbTXeaLw
++tDZzzfJtoAPCGp3ZSuxnhcp4jdAvpysLyP7xSP3GpIQanfr9RQSZX+XZUTP
+idRYJqC+30jC6QH1EKmwmUw9SIt5EGw7URz5NEaNafRXJ+7rtUcVpLOrmDre
+kWb5ySCZmfzWBpPvmJncS6SuFCOTC+0qS0fmhvzRu9mzBRevMUQ8K1c83+Qc
+n1r8KKlyjv2Udm0262Ld9akEu1oYHaRW9evgZH4dsH1d3gqc+5m0ai617ZW0
+aZBhD76XpkFnZ3aVR1VbrhO55szbV4Md5bgcXYdUlmm3IEsNxVbl7wNmpBqP
+rHHbwdGLun17cjoYrNkMBk7vJJedxrqCGmzMmZHB1qumBuvaJzVYMV3e0WCw
+QyODrSZEWBk8tQSnRTlaZ7A7NBpMmwebgaPQ6Pl4flYZjo5kvAbmrnVfZcSC
+2eS3dwckIGZmNoZgNVux3mxgo6jHn+UySt5WZ7aRF3yemu1nkdmKZrYfRert
+m5qtKzVbkUtBZt96s0kF0LeumBTMcndFliub5TaKELFPfbDuZst7fbDGtoeE
+mbHl/rJyZLmf1TRoDlaq1S4P1hOrSMztviuiG2LuBaCbxV2JuX4NpZyv+GL3
+cr5Xh/NDJOC0tWsjRUnW+8p6Cevdl1Kht1Gh76tFZ4vHfVfi/q+DRZs1OMcW
+PVgtCvKJe1XvW2QAhrclJ5GJbV9La830tmbcUmZc0PMYMy54ebbSssVo+WhG
+yz+/6/da/WvmYKDl1QyRalu4Q7hYoWYGpg7x+BWAuG+apbu+HRLXDvdNOaRE
+Of63Sc7VhPxxAB93OVIXneHxGgV1rzW6/a/cnDT0Pr4E6k5hPuglLE/RxrKY
+umVRy4kN1D1JzD43AkBRwrD3fW41ANyTINRa9Rr5iyixsgzLJrFa/0SqdX40
+2Qp1VWjDVWhxx/EUWLb4QUmrvyNx/s/I06Q8QVKJI6U8StYPSuQxkwmR9Ser
+9YNM7Tbry76uBusfQWd8IJbte8/3lV2+RZluc0MyPoTXNYz5GmwZNCJub2Pm
+7+JtdCEhYP79U+8uHCG4afelb1bw7a+c6EtvvuJbX0n80n/zLN29Ela3qDaH
+tsnqdnL43+U6gl5kqyixju24ny3lvu6Tv3ycaGfbE6TcXGT5yNwVkZVZ5rFB
+sFraLPGTBGGhpnSLRtmi+YB/yuq3Igsc+ryhTGT3FKn2VoM3yAJvP0tYj069
+gWr0LMkkvxbsqjdY4YrIGwypBEgXhLXD5MnafT/qEG9e5De3XS/yK/wX7Ut5
+v5eHFjupz8zEz9Wb+Kl5mYlPbTDxYXTkas61Ms8ZBngwrTY2N9ebs7PBnMLw
+yVvKr4EqMy8so2cpDj0mO28hDVWnq+n8Iv59Ec5+tzg99Nb5xNI7uFMkuBim
+solUo9RM8tP3GesljnlxIGqq24KZ8v4jM89C0m0ht50exYQ9Y1MVyVs1FQSN
+8fvTWJ1pz+qTuA/9D79y80QxP8zjVjsnuAtbQQb5Vl/yy0X8XRnr2C7bhtGI
+cIBHqcgalkV/sC+ajjvNc17Bc9xGl4ka2duZgd8WT375t5pFgcPHw2UilRKd
+HSH3tl+3ummOtkngrsHdrCUBnG008tq82XWNtxN4ccXYGUK4Q7y7YBVuG4ht
+c/fSXsQf8JJq9S0y5xCqqiRondUFD/MWZVafjIbvTgI1GB4i1nbr8KSrMGtc
+x7bJvhLayg+llU8Wk1xpHjtvy39GaCgbGsZFYXyPOIxjtMVFERogaHQGZ84g
+KpCWzHeX+3/IKX8wrN/R3ctOt3Z3BgTIcnKvQ8SwUsqJ1PijZPtpZvwil4DM
+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
+GOCJiNi/j1z6UQ3E3tuMuD2PWZeRG7WuqBcIa139fbmU8nlsgwH/SIM9RSQ9
+qzxOBbwWTXXPQK+UPCwHKl9oNFYq582EA3fJTFjmUrb17JtxTHj2gV2pyYph
+uWGDyS4KJhOjfgJH83FksufM417plJVwjVf4EUIEvHTtW1VWXuKZ3Mjei6gl
+JDqX6L/lf1OC9bwEM1oxZ7a8v8GWO0Wk7NeV2TJ10iCl2VJJWUhJ+bTyJPDy
+Nw28PDzlZd7vkXFSjl+XF200KTiJ+Nzb93aZXQ9qsOufza558zyw51Sq6mts
+WzBdp1y5kW5YDfuTyLAnpoZdcaNGbsq2KFQfGHNxkNxThx8qNO3VJo5/xZov
+iONtFcdbWE1cwOiFbHxmv5wxiTan3mBh+NX5xkvUAD60OwbV0FT7oHKzRdzG
+GbQvZM0paoeJU9Sm4OZPqcaLGHd/atuwj31Cp1D/r0uMnbNYxGs3lllJMHvJ
+vyD7zu3OzL6frI/A+50sPMMlo+EpHUcQhWemaFR5W8O2FoZspNwvGSLA8kcz
+lsNdy7Gafx9lBo2ZPtoryQsAgSyHGgyE3XDRmqvBjaDNCu1laNvaTOG/UHL8
+7yU1WfSArD/MW1JkwG1/SkwoMgQFf16syLhN5Ddw078kNy/0OuA8vN88ltw8
+AdwE9TdealFa4apKiN5YQvTArH+iDuwdzBfAN8iumhzyPBtfEn+H6/YTpMRI
+tK2lHNV7nu+/RqKzrGwm5RFyR08IchYKQqjCaYYSdDNB8HnMUPJXkatcGqT9
+luIOcgoXMdyDYtfJCNKX0Ja/MHRoCMa2/jxJ8Owzp8v9fOp88pnzi78UeVps
+d6Hzh+4g3sXeEJelbK9oiXWkbkjepbSGk95R4t6b1tKa8CAr+9v2VibzeLjP
+eT+CENfGiPqk4eTHXmv5KE+33ydbeXgaAYo93MUqxBUmPOjrB8t6wWu6IP7R
+7ksqirPE8bwtyHwVRPRavv2ZbL9T9l8qcifVOp2gkXCwQOQBviP5E9GBGtNl
+Jmjw341uZSt6blTt8ALgV9if+ELzUN8mDqIgLvOwOIHL+0PErQAVz9PV6FI0
+TmQEWX4YT70ZPdZNaClYYPIl7k0rKE8bIK72LnW3w0UbBUc4yAn+aOC/my72
+EjLq7sj6H6O7rZgf9ccXHLtOC3C9v9b5rh0wgtDIP7mXGXMQvTCWW/leNGSQ
+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\
+\>"],ExpressionUUID->"b8bc7aa9-5833-4ebb-8d43-176bc6b92986"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Section 3 : Comments and questions", "Section",
+ CellChangeTimes->{{3.73412976550718*^9, 
+  3.734129790661631*^9}},ExpressionUUID->"0d081bda-267a-47dd-ab9b-\
+a6fbe15daf4d"],
+
+Cell[TextData[StyleBox["\tI don\[CloseCurlyQuote]t quite understand line \
+\[OpenCurlyDoubleQuote]Round[rad{Cos[#],Sin[#]}]&[Random[Real,{0,N[2 Pi]}]]\
+\[CloseCurlyDoubleQuote]. But given that this line generates a site nearest \
+to a random point on the peripheral of the circle centered (0,0) with a \
+radius max absolute coordinate value in occupiedSites plus s, I could guess \
+that the Cos and Sin probably helps generate a location on the circle. \n\tI \
+also don\[CloseCurlyQuote]t understand how does the part of \
+\[OpenCurlyDoubleQuote]Map[Function[y,y+#2]\[CloseCurlyDoubleQuote] work in \
+line \[OpenCurlyDoubleQuote]Intersection[occupiedSites,Map[Function[y,y+#2],\
+stepChoices]]\[NotEqual]{}&)];\[CloseCurlyDoubleQuote]. Because I feel like \
+the Map of Function should use subtraction instead of plus. It should look \
+like Map[Function[y,y-#2], so that the difference gradually shrinks to zero.\n\
+\tI don\[CloseCurlyQuote]t see how DLA and showDLA is connected/related. Does \
+showDLA simulate the same aggregation process as the non-graphical DLA? Also, \
+just quickly going through the build-in graphics commands in class would be \
+helpful.",
+ FontSize->18]], "Text",
+ CellChangeTimes->{{3.734130374570696*^9, 3.734130410691461*^9}, {
+   3.7341304480796833`*^9, 3.7341307157636137`*^9}, {3.7341307915910997`*^9, 
+   3.7341308668461313`*^9}, {3.734130945597135*^9, 3.7341310455829363`*^9}, {
+   3.7341315340258617`*^9, 3.734131590977116*^9}, {3.734131723114922*^9, 
+   3.734131770382118*^9}, {3.734131810725135*^9, 3.734131817316773*^9}, {
+   3.7341327116583433`*^9, 3.734132713096781*^9}, {3.7341327517518053`*^9, 
+   3.734132771505734*^9}, 3.734141039849821*^9, 3.734181952476594*^9, {
+   3.73418202734722*^9, 
+   3.734182148691592*^9}},ExpressionUUID->"f6933251-a795-4742-814d-\
+420b903aee56"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Section 4 : New functions and structures ", "Section",
+ CellChangeTimes->{{3.734131071250402*^9, 
+  3.7341310880666103`*^9}},ExpressionUUID->"a795661f-0275-458c-9022-\
+3b488d84f371"],
+
+Cell["\<\
+1. FixedPoints[ f,expr]: starts with expr, then applies f repeatedly until \
+the result no longer changes.
+2. Round[rad {Cos[#], Sin[#]}] &[Random[Real, {0, N[2 Pi]}]]: generates a \
+nearest neighbor of a peripheral point on a circle.
+3. SameTest -> ( ): Apply the same testing method each time, for example, the \
+f in FixedPoints is called.
+4. Graphics[{PointSize[1/Sqrt[len]],Transpose[{colors,points}]}]: create a \
+graph , specify point size and match colors with the points.\
+\>", "Text",
+ CellChangeTimes->{
+  3.734132809671983*^9, {3.73413293687938*^9, 3.734133039092738*^9}, {
+   3.734133118044091*^9, 3.734133269237896*^9}, {3.734181840336381*^9, 
+   3.734181943661985*^9}},
+ FontSize->18,ExpressionUUID->"cc012d01-f655-4873-ae6d-40d6fc305399"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{695, 816},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
+2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 309, 8, 210, "Title",ExpressionUUID->"f60862d6-b9c2-4d54-aad0-1c508f4d5ae8"],
+Cell[892, 32, 247, 5, 64, "Text",ExpressionUUID->"049d084c-5cc6-4fa6-8c01-140dbd9239dc"],
+Cell[CellGroupData[{
+Cell[1164, 41, 331, 5, 67, "Section",ExpressionUUID->"2a78b891-8f69-489f-b836-50cee499f91c"],
+Cell[1498, 48, 1068, 14, 246, "Text",ExpressionUUID->"37090aca-825f-4e58-aca8-a48908ac4f8a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2603, 67, 327, 5, 67, "Section",ExpressionUUID->"22e15939-c418-4e48-871f-3714a656b723"],
+Cell[2933, 74, 4480, 114, 388, "Input",ExpressionUUID->"26c287f2-07be-4859-9be8-468d147dba9b"],
+Cell[CellGroupData[{
+Cell[7438, 192, 347, 7, 30, "Input",ExpressionUUID->"e0cfc88c-c091-475c-a471-77858542d757"],
+Cell[7788, 201, 394, 10, 20, "Print",ExpressionUUID->"bea2999e-bea1-4cee-be70-abc82731ea48"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8219, 216, 2406, 58, 241, "Input",ExpressionUUID->"603f6b68-8e45-47f3-9c15-0854690cb7e4"],
+Cell[10628, 276, 10941, 210, 302, "Output",ExpressionUUID->"e119d0fc-5fc6-437b-b56c-bf50c228aab4"]
+}, Open  ]],
+Cell[21584, 489, 457, 7, 64, "Text",ExpressionUUID->"bd23dacc-f662-4988-a016-3c4cf113d16c"],
+Cell[CellGroupData[{
+Cell[22066, 500, 2124, 52, 199, "Input",ExpressionUUID->"1fe3a2dc-853b-46ff-963f-733bd8f60dc8"],
+Cell[24193, 554, 448, 11, 20, "Print",ExpressionUUID->"a2d9f1e1-b576-4ac3-80d8-f754d8c45bc1"],
+Cell[24644, 567, 146805, 4067, 299, 82145, 3006, "CachedBoxData", "BoxData", "Output",ExpressionUUID->"b8bc7aa9-5833-4ebb-8d43-176bc6b92986"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[171498, 4640, 178, 3, 67, "Section",ExpressionUUID->"0d081bda-267a-47dd-ab9b-a6fbe15daf4d"],
+Cell[171679, 4645, 1815, 26, 428, "Text",ExpressionUUID->"f6933251-a795-4742-814d-420b903aee56"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[173531, 4676, 188, 3, 67, "Section",ExpressionUUID->"a795661f-0275-458c-9022-3b488d84f371"],
+Cell[173722, 4681, 764, 14, 220, "Text",ExpressionUUID->"cc012d01-f655-4873-ae6d-40d6fc305399"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

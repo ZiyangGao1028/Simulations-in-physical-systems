@@ -1,0 +1,279 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     10848,        271]
+NotebookOptionsPosition[      9280,        232]
+NotebookOutlinePosition[      9632,        248]
+CellTagsIndexPosition[      9589,        245]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[{
+ "Physics 234 \nPS #10 / Part B (26)\n",
+ StyleBox["Code Evaluation on Chapter 3 of CSM",
+  FontSize->36]
+}], "Title",
+ CellChangeTimes->{{3.731933741464285*^9, 3.731933811667729*^9}, {
+  3.734123871569598*^9, 3.734123961506069*^9}, {3.734190014067006*^9, 
+  3.7341900141949863`*^9}},ExpressionUUID->"a91212b0-4c88-4814-9df3-\
+1d6975900f58"],
+
+Cell[TextData[StyleBox["Ziyang Gao\n4/30/2018",
+ FontSize->18]], "Text",
+ CellChangeTimes->{{3.731933819521956*^9, 3.731933824538842*^9}, {
+  3.734123967468067*^9, 
+  3.734123973249997*^9}},ExpressionUUID->"c1f4fb9c-2bac-4576-8dad-\
+0b382e350d52"],
+
+Cell[CellGroupData[{
+
+Cell["Section 1: What is the problem about", "Section",
+ CellChangeTimes->{{3.731933877737628*^9, 3.731933884921731*^9}, {
+  3.731934100769842*^9, 3.7319341152049837`*^9}, {3.7319341676901703`*^9, 
+  3.731934206224195*^9}, {3.734129566554892*^9, 
+  3.7341295852514677`*^9}},ExpressionUUID->"162604a7-55d4-4a3c-ab86-\
+77dae6c43961"],
+
+Cell[TextData[StyleBox["\tRead Sec. 3.3 in CSM (The Fractal Dimension of a \
+DLA). Then, work through the code in these sections in your own notebook. \n\t\
+Your notebook should contain all the code and appropriate output, along with \
+comments on any of the code you didn\[CloseCurlyQuote]t understand or that \
+did not work correctly. In the last section of your notebook, include all new \
+functions and structures (ones we have not discussed in class) that were used \
+or mentioned in the sections.",
+ FontSize->18]], "Text",
+ CellChangeTimes->{{3.731934230992525*^9, 3.731934244038454*^9}, {
+  3.731934291164131*^9, 3.731934299507243*^9}, {3.7319343516085052`*^9, 
+  3.73193435360321*^9}, {3.73193440429664*^9, 3.731934488422429*^9}, {
+  3.731935615701275*^9, 3.731935618086338*^9}, {3.734124003643029*^9, 
+  3.734124024692873*^9}, {3.734124081311233*^9, 3.73412408682111*^9}, {
+  3.7341823801929197`*^9, 3.734182410318829*^9}},
+ FontSize->16,ExpressionUUID->"2ab0f070-4809-4b29-bdc7-c3cce1cc10e7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Section 2: Code piece and code check", "Section",
+ CellChangeTimes->{{3.731935483103862*^9, 3.731935498483976*^9}, {
+  3.731935551408482*^9, 3.731935582598387*^9}, {3.734129557557165*^9, 
+  3.734129580436962*^9}, {3.734129627305879*^9, 
+  3.7341296297110786`*^9}},ExpressionUUID->"f1335be7-8518-4ff8-b42f-\
+682dea993ed9"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"FractalDimension", "[", "occupiedSites_List", "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"occSiteDensity", ",", "fractalDataList", ",", "fractaldim"}], 
+     "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"occSiteDensity", "[", "t_Integer", "]"}], ":=", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"N", "[", 
+        RowBox[{"Count", "[", 
+         RowBox[{"occupiedSites", ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"x_", "?", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Abs", "[", "#", "]"}], "\[LessEqual]", "t"}], "&"}], 
+              ")"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{"y_", "?", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Abs", "[", "#", "]"}], "\[LessEqual]", "t"}], "&"}], 
+              ")"}]}]}], "}"}]}], "]"}], "]"}], "/", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"2", "t"}], "+", "1"}], ")"}], "^", "2"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"fractalDataList", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"2", "s"}], ",", 
+          RowBox[{"occSiteDensity", "[", "s", "]"}]}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"s", ",", 
+          RowBox[{"Max", "[", 
+           RowBox[{"Abs", "[", "occupiedSites", "]"}], "]"}]}], "}"}]}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"fractaldim", "=", 
+      RowBox[{"Fit", "[", 
+       RowBox[{
+        RowBox[{"N", "[", 
+         RowBox[{"Log", "[", "fractalDataList", "]"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"1", ",", "x"}], "}"}], ",", "x"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<The fractal dimension of the DLA is \>\"", ",", 
+       RowBox[{"Coefficient", "[", 
+        RowBox[{"fractaldim", ",", "x"}], "]"}]}], "]"}], ";"}]}], 
+   "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"FractalDimension", "[", 
+  RowBox[{"DLA", "[", 
+   RowBox[{"10", ",", "12"}], "]"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7341824709021397`*^9, 3.734182494256641*^9}, {
+  3.734182741294598*^9, 3.734182954512191*^9}, {3.734183027467903*^9, 
+  3.734183102895795*^9}, {3.734183185794825*^9, 3.734183186397937*^9}, {
+  3.7341832418534737`*^9, 3.734183313278082*^9}},
+ CellLabel->"In[51]:=",ExpressionUUID->"07477af7-7fb2-43e0-a913-bb5bf7f5f625"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ FormBox[
+  InterpretationBox[
+   RowBox[{"\<\"The number of particles released was\"\>", 
+    "\[InvisibleSpace]", "40"}],
+   SequenceForm["The number of particles released was", 40],
+   Editable->False], TraditionalForm]], "Print",
+ CellChangeTimes->{3.7341831051417913`*^9, 3.734183191065351*^9, 
+  3.7341833168402023`*^9, 3.734196255710952*^9},
+ CellLabel->
+  "During evaluation of \
+In[51]:=",ExpressionUUID->"2bc9a7e2-8f0e-498f-8f94-2549262aa6c7"],
+
+Cell[BoxData[
+ FormBox[
+  InterpretationBox[
+   RowBox[{"\<\"The fractal dimension of the DLA is \"\>", 
+    "\[InvisibleSpace]", 
+    RowBox[{"-", "0.7327155009088675`"}]}],
+   SequenceForm["The fractal dimension of the DLA is ", -0.7327155009088675],
+   Editable->False], TraditionalForm]], "Print",
+ CellChangeTimes->{3.7341831051417913`*^9, 3.734183191065351*^9, 
+  3.7341833168402023`*^9, 3.734196255722288*^9},
+ CellLabel->
+  "During evaluation of \
+In[51]:=",ExpressionUUID->"c8fad50b-2402-4dc1-bba5-51fdb2d2b7e3"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Section 3 : Comments and questions", "Section",
+ CellChangeTimes->{{3.73412976550718*^9, 
+  3.734129790661631*^9}},ExpressionUUID->"8ae46f20-e113-4547-acaa-\
+3922e0b83fcb"],
+
+Cell[TextData[StyleBox["\tI don\[CloseCurlyQuote]t quite understand the line \
+fractaldim=Fit[N[Log[fractalDataList]],{1,x},x]. The way it manipulates \
+fractalDataList is confusing and I don\[CloseCurlyQuote]t see the reason to \
+log it. I am still kinda of confused about the fractal dimension concept that\
+\[CloseCurlyQuote]s being applied to this formula.\n\tOther than that the \
+code is neatly written and understandable. Only issue is that the line \
+{s,Max[Abs[occupiedSites]]}], I don\[CloseCurlyQuote]t see the meaning of \
+this part in fractalDataList.",
+ FontSize->18]], "Text",
+ CellChangeTimes->{{3.734130374570696*^9, 3.734130410691461*^9}, {
+   3.7341304480796833`*^9, 3.7341307157636137`*^9}, {3.7341307915910997`*^9, 
+   3.7341308668461313`*^9}, {3.734130945597135*^9, 3.7341310455829363`*^9}, {
+   3.7341315340258617`*^9, 3.734131590977116*^9}, {3.734131723114922*^9, 
+   3.734131770382118*^9}, {3.734131810725135*^9, 3.734131817316773*^9}, {
+   3.7341327116583433`*^9, 3.734132713096781*^9}, {3.7341327517518053`*^9, 
+   3.734132771505734*^9}, 3.734141039849821*^9, 3.734181952476594*^9, {
+   3.73418202734722*^9, 3.734182148691592*^9}, 3.734195328626274*^9, {
+   3.7341954759289217`*^9, 3.734195527553895*^9}, {3.7341956363063803`*^9, 
+   3.7341956505649643`*^9}, {3.7341957283663807`*^9, 3.734195874706069*^9}, {
+   3.7341959303812723`*^9, 3.734195979957123*^9}, {3.734196211446659*^9, 
+   3.734196223870049*^9}},ExpressionUUID->"6ac18068-ebb6-4315-bcc5-\
+caf23d8b7674"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Section 4 : New functions and structures ", "Section",
+ CellChangeTimes->{{3.734131071250402*^9, 
+  3.7341310880666103`*^9}},ExpressionUUID->"18c0543b-0132-4f3e-a818-\
+da77e5c969fc"],
+
+Cell["\<\
+1. Count[List,{x_?(condition1&), y_?(condition2&)}]]: Count the number of \
+points in the list which satisfy the two conditions within [ ].
+2. fractalDim=Fit[N[Log[fractalDataList]],{1,x},x]: determine the fractal \
+dimension of the DLA structure.\
+\>", "Text",
+ CellChangeTimes->{
+  3.734132809671983*^9, {3.73413293687938*^9, 3.734133039092738*^9}, {
+   3.734133118044091*^9, 3.734133269237896*^9}, {3.734181840336381*^9, 
+   3.734181943661985*^9}, {3.734196044357161*^9, 3.73419614493853*^9}, 
+   3.734196244593709*^9, {3.734196294845834*^9, 3.734196328719309*^9}, {
+   3.734196397034463*^9, 3.7341964191548986`*^9}},
+ FontSize->18,ExpressionUUID->"5231ea14-bc43-4e1d-80c9-4788ddf70566"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{749, 815},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
+2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 357, 8, 210, "Title",ExpressionUUID->"a91212b0-4c88-4814-9df3-1d6975900f58"],
+Cell[940, 32, 247, 5, 64, "Text",ExpressionUUID->"c1f4fb9c-2bac-4576-8dad-0b382e350d52"],
+Cell[CellGroupData[{
+Cell[1212, 41, 331, 5, 67, "Section",ExpressionUUID->"162604a7-55d4-4a3c-ab86-77dae6c43961"],
+Cell[1546, 48, 1003, 14, 168, "Text",ExpressionUUID->"2ab0f070-4809-4b29-bdc7-c3cce1cc10e7"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2586, 67, 327, 5, 67, "Section",ExpressionUUID->"f1335be7-8518-4ff8-b42f-682dea993ed9"],
+Cell[CellGroupData[{
+Cell[2938, 76, 2635, 68, 241, "Input",ExpressionUUID->"07477af7-7fb2-43e0-a913-bb5bf7f5f625"],
+Cell[CellGroupData[{
+Cell[5598, 148, 467, 11, 20, "Print",ExpressionUUID->"2bc9a7e2-8f0e-498f-8f94-2549262aa6c7"],
+Cell[6068, 161, 521, 12, 20, "Print",ExpressionUUID->"c8fad50b-2402-4dc1-bba5-51fdb2d2b7e3"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6650, 180, 178, 3, 67, "Section",ExpressionUUID->"8ae46f20-e113-4547-acaa-3922e0b83fcb"],
+Cell[6831, 185, 1493, 21, 194, "Text",ExpressionUUID->"6ac18068-ebb6-4315-bcc5-caf23d8b7674"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8361, 211, 188, 3, 67, "Section",ExpressionUUID->"18c0543b-0132-4f3e-a818-da77e5c969fc"],
+Cell[8552, 216, 700, 12, 116, "Text",ExpressionUUID->"5231ea14-bc43-4e1d-80c9-4788ddf70566"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

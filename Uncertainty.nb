@@ -1,0 +1,116 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      3654,        106]
+NotebookOptionsPosition[      2790,         81]
+NotebookOutlinePosition[      3142,         97]
+CellTagsIndexPosition[      3099,         94]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+Uncertainty Estimation on Random Walk Problem with unequal P Value\
+\>", "Title",
+ CellChangeTimes->{{3.731933741464285*^9, 
+  3.731933811667729*^9}},ExpressionUUID->"0b42e17e-0b89-4804-b40b-\
+edd4e786c61b"],
+
+Cell[TextData[StyleBox["Ziyang Gao",
+ FontSize->18]], "Text",
+ CellChangeTimes->{{3.731933819521956*^9, 
+  3.731933824538842*^9}},ExpressionUUID->"0c9d640c-e2d9-4753-bca8-\
+a4f15d2527c3"],
+
+Cell[CellGroupData[{
+
+Cell["What is the problem about? ", "Section",
+ CellChangeTimes->{{3.731933877737628*^9, 3.731933884921731*^9}, {
+  3.731934100769842*^9, 3.7319341152049837`*^9}, {3.7319341676901703`*^9, 
+  3.731934206224195*^9}},ExpressionUUID->"a5710a01-2242-43ea-8e3f-\
+8df4a9d0fef1"],
+
+Cell[TextData[StyleBox["When the probability p that the particle goes right \
+is not equal to the probability q = 1 \[Minus] p that the particle goes left, \
+we want to estimate the a and b values in estimation function E[x_n] = a + bp \
+(When setting N = 20).",
+ FontSize->18]], "Text",
+ CellChangeTimes->{{3.731934230992525*^9, 3.731934244038454*^9}, {
+  3.731934291164131*^9, 3.731934299507243*^9}, {3.7319343516085052`*^9, 
+  3.73193435360321*^9}, {3.73193440429664*^9, 3.731934488422429*^9}, {
+  3.731935615701275*^9, 3.731935618086338*^9}},
+ FontSize->16,ExpressionUUID->"57a9bb05-28d2-439a-9746-207a6666aa93"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Statistical functions", "Section",
+ CellChangeTimes->{{3.731935483103862*^9, 3.731935498483976*^9}, {
+  3.731935551408482*^9, 
+  3.731935582598387*^9}},ExpressionUUID->"1848d044-3509-46d7-925e-\
+54fdd73b6aaf"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"ave", "[", "myList_", "]"}], ":=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Total", "[", "myList", "]"}], "/", 
+      RowBox[{"Length", "[", "myList", "]"}]}], "//", "N"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.731935592727912*^9, 3.731935609122292*^9}, {
+   3.731935825100363*^9, 3.7319358338529053`*^9}, {3.7319361293425293`*^9, 
+   3.731936130006646*^9}, 3.7319367009544573`*^9, {3.731937088503779*^9, 
+   3.731937096008078*^9}},ExpressionUUID->"f5a519cb-f869-4ef5-82ab-\
+030064dac2de"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{697, 815},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
+2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 217, 5, 222, "Title",ExpressionUUID->"0b42e17e-0b89-4804-b40b-edd4e786c61b"],
+Cell[800, 29, 187, 4, 38, "Text",ExpressionUUID->"0c9d640c-e2d9-4753-bca8-a4f15d2527c3"],
+Cell[CellGroupData[{
+Cell[1012, 37, 271, 4, 67, "Section",ExpressionUUID->"a5710a01-2242-43ea-8e3f-8df4a9d0fef1"],
+Cell[1286, 43, 616, 9, 90, "Text",ExpressionUUID->"57a9bb05-28d2-439a-9746-207a6666aa93"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1939, 57, 215, 4, 67, "Section",ExpressionUUID->"1848d044-3509-46d7-925e-54fdd73b6aaf"],
+Cell[2157, 63, 605, 14, 73, "Input",ExpressionUUID->"f5a519cb-f869-4ef5-82ab-030064dac2de"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
